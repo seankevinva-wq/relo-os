@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { BookOpen, Zap, Briefcase, Activity, Shield, LayoutDashboard, Info, FileText, CheckCircle, AlertTriangle, Clock } from 'lucide-react'
+import { BookOpen, Zap, Briefcase, Activity, Shield, LayoutDashboard, Info, FileText, CheckCircle, AlertTriangle, Clock, Star, DollarSign, Users } from 'lucide-react'
 
 const ACCENT = '#ADFF47'
 
@@ -387,7 +387,220 @@ export default function HelpPage() {
         </div>
       </SectionCard>
 
-      {/* Section 8 — Quick Reference */}
+      {/* Section 8 — Open Estimates Pipeline */}
+      <SectionCard icon={<FileText size={18} />} title="Open Estimates Pipeline">
+        <div className="space-y-4 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <p>
+            Tracks all open quotes sent to homeowners. Emma auto-follows up on every estimate so reps don&apos;t have to — eliminating the manual Monday morning PDF report Jimmy&apos;s team was producing.
+          </p>
+
+          <div>
+            <div className="text-white font-medium mb-2">Estimate Status Badges</div>
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+              {[
+                { color: '#ADFF47', label: 'Fresh',     desc: 'Estimate created within the last 7 days. First follow-up not yet due.' },
+                { color: '#fbbf24', label: 'Aging',     desc: '7–30 days open. Emma has sent at least one follow-up.' },
+                { color: '#f87171', label: 'Stale',     desc: '30+ days open. Emma has exhausted the standard sequence.' },
+                { color: '#60a5fa', label: 'Converted', desc: 'Homeowner accepted — estimate converted to a booked job.' },
+              ].map((row, i) => (
+                <div
+                  key={row.label}
+                  className="flex items-start gap-4 px-4 py-3"
+                  style={{
+                    background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                    borderTop: i > 0 ? '1px solid rgba(255,255,255,0.05)' : undefined,
+                  }}
+                >
+                  <div className="w-24 shrink-0 pt-0.5">
+                    <StatusPill color={row.color} label={row.label} />
+                  </div>
+                  <div style={{ color: 'rgba(255,255,255,0.65)' }}>{row.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            {[
+              { label: 'Filter tabs', desc: 'Narrow the table by status — Fresh, Aging, Stale, or Converted.' },
+              { label: 'Drawer', desc: 'Click any estimate row to see Emma\'s full follow-up log with timestamps, channel (email / SMS), message text, and homeowner replies.' },
+              { label: 'Monday Report Preview', desc: 'Side panel showing the auto-generated weekly summary Emma sends — total open, followed up, converted, and conversion rate. No manual PDF assembly required.' },
+            ].map(item => (
+              <div key={item.label} className="flex gap-3">
+                <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: ACCENT }} />
+                <div>
+                  <span className="font-medium text-white">{item.label}</span>
+                  {' — '}
+                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Screenshot src="/screenshots/estimates.png" alt="Open Estimates Pipeline screenshot" />
+        </div>
+      </SectionCard>
+
+      {/* Section 9 — QA & Reviews */}
+      <SectionCard icon={<Star size={18} />} title="QA & Reviews Dashboard">
+        <div className="space-y-4 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <p>
+            RSG maintains a <span className="font-semibold text-white">4.95/5.0 QA average</span> — but today only ~5% of completed jobs receive a score because collection is manual. Emma automates the full sequence, targeting <span className="font-semibold" style={{ color: ACCENT }}>30%+ response rate</span>.
+          </p>
+
+          <div>
+            <div className="text-white font-medium mb-2">Emma&apos;s Review Sequence (per job close)</div>
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+              {[
+                { step: 'Step 1', label: 'QA score request', desc: 'Emma texts the homeowner immediately after job completion: "Rate your experience 1–5."' },
+                { step: 'Step 2', label: 'Conditional Google ask', desc: 'If score ≥ 4, Emma sends a Google review link ~60 seconds later. If score ≤ 3, the Google ask is suppressed.' },
+                { step: 'Step 3', label: 'Internal alert (score ≤ 3)', desc: 'Emma notifies Nick of the low score and complaint details. Job is flagged for follow-up.' },
+              ].map((item, i) => (
+                <div
+                  key={item.step}
+                  className="flex gap-4 px-4 py-3"
+                  style={{
+                    background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                    borderTop: i > 0 ? '1px solid rgba(255,255,255,0.05)' : undefined,
+                  }}
+                >
+                  <span className="text-xs font-bold shrink-0 w-12" style={{ color: ACCENT }}>{item.step}</span>
+                  <div>
+                    <span className="font-medium text-white">{item.label}</span>
+                    {' — '}
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            {[
+              { label: 'Score Distribution', desc: 'Bar chart showing the count of 1–5 star scores across the last 30 days.' },
+              { label: 'Vendor QA Leaderboard', desc: 'Vendors ranked by average score with job count and total scores collected.' },
+              { label: 'Review drawer', desc: 'Click any review row to see the homeowner\'s comment, Google review outcome, and Emma\'s full 3-step sequence.' },
+              { label: 'Google badge', desc: '"Left" (lime) means the homeowner posted a review. "Requested" means the link was sent. "Suppressed" means the score was below 4.' },
+            ].map(item => (
+              <div key={item.label} className="flex gap-3">
+                <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: ACCENT }} />
+                <div>
+                  <span className="font-medium text-white">{item.label}</span>
+                  {' — '}
+                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Screenshot src="/screenshots/qa-reviews.png" alt="QA & Reviews Dashboard screenshot" />
+        </div>
+      </SectionCard>
+
+      {/* Section 10 — Billing */}
+      <SectionCard icon={<DollarSign size={18} />} title="Billing & Revenue Tracker">
+        <div className="space-y-4 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <p>
+            Mirrors the Vendor Compliance flow but for the RSG receivables side. Today, vendors email PDF invoices and billing staff manually match them to jobs. Emma&apos;s mobile close-out workflow will automate this entirely.
+          </p>
+
+          <div>
+            <div className="text-white font-medium mb-2">Billing Status Flow</div>
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <StatusPill color="#f87171" label="Awaiting Paperwork" />
+              <span style={{ color: 'rgba(255,255,255,0.3)' }}>→</span>
+              <StatusPill color="#fbbf24" label="Ready to Bill" />
+              <span style={{ color: 'rgba(255,255,255,0.3)' }}>→</span>
+              <StatusPill color="#60a5fa" label="Invoiced" />
+              <span style={{ color: 'rgba(255,255,255,0.3)' }}>→</span>
+              <StatusPill color="#ADFF47" label="Paid" />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            {[
+              { label: 'Awaiting Paperwork', desc: 'Vendor hasn\'t submitted close-out docs yet. Emma is chasing via the compliance nudge sequence.' },
+              { label: 'Ready to Bill', desc: 'Vendor paperwork received and matched. Emma can generate and send the client invoice.' },
+              { label: 'Invoiced', desc: 'Invoice sent to the moving company client. Awaiting payment within agreed net terms.' },
+              { label: 'Paid', desc: 'Invoice settled. Job is financially closed.' },
+              { label: 'Days Since Complete', desc: 'Amber at 3+ days, red at 7+ days — highlights aging receivables at a glance.' },
+            ].map(item => (
+              <div key={item.label} className="flex gap-3">
+                <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: ACCENT }} />
+                <div>
+                  <span className="font-medium text-white">{item.label}</span>
+                  {' — '}
+                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Screenshot src="/screenshots/billing.png" alt="Billing & Revenue Tracker screenshot" />
+        </div>
+      </SectionCard>
+
+      {/* Section 11 — Vendor Portal */}
+      <SectionCard icon={<Users size={18} />} title="Service Partner (Vendor) Portal">
+        <div className="space-y-4 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <p>
+            A simulation of the vendor-facing view — shown in demo mode as <span className="font-semibold text-white">Gary&apos;s Moving Services</span>. This mirrors the portal Jimmy screen-shared during the discovery call (Gary&apos;s account with 15 active jobs, on-site button, close-out flow).
+          </p>
+
+          <div>
+            <div className="text-white font-medium mb-2">Vendor Job Workflow (fully clickable)</div>
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+              {[
+                { step: '1', label: 'Assigned',          desc: 'RSG has assigned this job to the vendor. Action: Accept Job.' },
+                { step: '2', label: 'Accepted',           desc: 'Vendor confirmed. Action: Set Service Window — pick a 3-hour slot.' },
+                { step: '3', label: 'Window Set',         desc: 'Window confirmed. Emma auto-notifies the homeowner. Action: Report On-Site.' },
+                { step: '4', label: 'On Site',            desc: 'Vendor marked on-site with a pulsing green indicator. Action: Close Out Job.' },
+                { step: '5', label: 'Complete',           desc: 'Job done. Action: Upload Paperwork — triggers billing + compliance flow.' },
+                { step: '6', label: 'Paperwork Uploaded', desc: 'Docs received. Job moves to "Ready to Bill" in the Billing tracker.' },
+              ].map((item, i) => (
+                <div
+                  key={item.step}
+                  className="flex gap-4 px-4 py-3"
+                  style={{
+                    background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                    borderTop: i > 0 ? '1px solid rgba(255,255,255,0.05)' : undefined,
+                  }}
+                >
+                  <span
+                    className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                    style={{ background: `${ACCENT}22`, color: ACCENT }}
+                  >
+                    {item.step}
+                  </span>
+                  <div>
+                    <span className="font-medium text-white">{item.label}</span>
+                    {' — '}
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            {[
+              { label: 'Demo mode banner', desc: 'Amber banner at the top clarifies this is a vendor-facing simulation, not the RSG admin view.' },
+              { label: 'Service Window modal', desc: 'Clicking "Set Service Window" opens a picker. Selecting a slot advances the job and would trigger Emma to notify the homeowner.' },
+              { label: 'Job detail drawer', desc: 'Click any job card to see full address, schedule, special notes, close-out checklist, and advance the workflow.' },
+              { label: 'Earnings + QA sidebar', desc: 'Total monthly earnings and QA score visible at the top — mirrors what Gary\'s account showed in Jimmy\'s demo.' },
+            ].map(item => (
+              <div key={item.label} className="flex gap-3">
+                <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: ACCENT }} />
+                <div>
+                  <span className="font-medium text-white">{item.label}</span>
+                  {' — '}
+                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Screenshot src="/screenshots/vendor-portal.png" alt="Vendor Portal simulation screenshot" />
+        </div>
+      </SectionCard>
+
+      {/* Quick Reference */}
       <SectionCard icon={<BookOpen size={18} />} title="Quick Reference: Colors & Icons">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Color legend */}

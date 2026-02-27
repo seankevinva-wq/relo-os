@@ -1288,6 +1288,601 @@ export const VENDOR_COMPLIANCE: VendorCompliance[] = [
   },
 ]
 
+// ─── Estimates ─────────────────────────────────────────────────────────────
+
+export type EstimateStatus = "fresh" | "aging" | "stale" | "converted"
+
+export interface EstimateFollowUp {
+  date: string
+  method: "email" | "sms" | "phone"
+  message: string
+  response?: string
+}
+
+export interface EstimateRecord {
+  id: string
+  estimateNumber: string
+  clientName: string       // moving company
+  homeowner: string
+  services: string[]
+  quotedValue: number
+  daysOpen: number
+  createdDate: string
+  lastFollowUp: string | null
+  status: EstimateStatus
+  followUps: EstimateFollowUp[]
+}
+
+export const ESTIMATES: EstimateRecord[] = [
+  {
+    id: "est-001",
+    estimateNumber: "Q-2024-0892",
+    clientName: "Syracuse Moving & Storage",
+    homeowner: "Barbara Thornton",
+    services: ["Piano Prep", "Chandelier"],
+    quotedValue: 1240,
+    daysOpen: 3,
+    createdDate: "2026-02-24",
+    lastFollowUp: "2026-02-25",
+    status: "fresh",
+    followUps: [
+      { date: "2026-02-25T09:00:00Z", method: "email", message: "Hi Barbara — wanted to follow up on your estimate Q-2024-0892 for piano prep and chandelier services ($1,240). Let me know if you have any questions or would like to move forward!", response: "Thanks, still deciding." },
+    ],
+  },
+  {
+    id: "est-002",
+    estimateNumber: "Q-2024-0887",
+    clientName: "North Star Relocation",
+    homeowner: "David Weston",
+    services: ["Pool Table"],
+    quotedValue: 580,
+    daysOpen: 11,
+    createdDate: "2026-02-16",
+    lastFollowUp: "2026-02-24",
+    status: "aging",
+    followUps: [
+      { date: "2026-02-20T10:00:00Z", method: "email", message: "Hi David — just checking in on your pool table estimate ($580). Slots are filling up for March. Can we lock you in?" },
+      { date: "2026-02-24T09:00:00Z", method: "sms", message: "David — Emma here from RSG. Your estimate Q-2024-0887 is still open. Ready to schedule? Reply YES to confirm!", response: "Maybe next month" },
+    ],
+  },
+  {
+    id: "est-003",
+    estimateNumber: "Q-2024-0871",
+    clientName: "Apex Movers",
+    homeowner: "Cynthia Reeves",
+    services: ["Hot Tub", "Fitness Equipment"],
+    quotedValue: 1850,
+    daysOpen: 38,
+    createdDate: "2026-01-20",
+    lastFollowUp: "2026-02-21",
+    status: "stale",
+    followUps: [
+      { date: "2026-01-27T10:00:00Z", method: "email", message: "Hi Cynthia — following up on your estimate for hot tub and fitness equipment relocation ($1,850)." },
+      { date: "2026-02-03T10:00:00Z", method: "email", message: "Cynthia — just a reminder that your estimate Q-2024-0871 is still available. Prices are locked through Feb 28." },
+      { date: "2026-02-10T09:00:00Z", method: "sms", message: "Hi Cynthia! Estimate Q-0871 expires soon. Lock in your hot tub + equipment move now. Reply YES or call us!" },
+      { date: "2026-02-21T09:00:00Z", method: "email", message: "Final notice — your estimate expires at end of month. Let us know before March 1st to hold this rate.", response: "We postponed the move indefinitely." },
+    ],
+  },
+  {
+    id: "est-004",
+    estimateNumber: "Q-2024-0901",
+    clientName: "Prestige Relocation",
+    homeowner: "Michael Farber",
+    services: ["Piano Prep"],
+    quotedValue: 720,
+    daysOpen: 1,
+    createdDate: "2026-02-26",
+    lastFollowUp: null,
+    status: "fresh",
+    followUps: [],
+  },
+  {
+    id: "est-005",
+    estimateNumber: "Q-2024-0879",
+    clientName: "Atlas Van Lines — Boston",
+    homeowner: "Sarah Kim",
+    services: ["Artwork Installation", "Chandelier"],
+    quotedValue: 2100,
+    daysOpen: 0,
+    createdDate: "2026-02-27",
+    lastFollowUp: null,
+    status: "converted",
+    followUps: [
+      { date: "2026-02-23T09:00:00Z", method: "email", message: "Hi Sarah — your estimate Q-2024-0879 for artwork installation and chandelier handling ($2,100). Ready to schedule?" },
+      { date: "2026-02-25T09:00:00Z", method: "sms", message: "Sarah — estimate still open! Would love to lock this in before next week's rush. Reply YES.", response: "YES — let's do it!" },
+    ],
+  },
+  {
+    id: "est-006",
+    estimateNumber: "Q-2024-0855",
+    clientName: "Two Men and a Truck — Chicago",
+    homeowner: "Tom Gallagher",
+    services: ["Gun Safe"],
+    quotedValue: 480,
+    daysOpen: 22,
+    createdDate: "2026-02-05",
+    lastFollowUp: "2026-02-26",
+    status: "aging",
+    followUps: [
+      { date: "2026-02-12T10:00:00Z", method: "email", message: "Tom — your gun safe relocation estimate ($480) is still open. Our certified crew is ready!" },
+      { date: "2026-02-19T10:00:00Z", method: "email", message: "Hi Tom — second follow-up on Q-2024-0855. Let us know if your timeline has changed." },
+      { date: "2026-02-26T09:00:00Z", method: "sms", message: "Tom, estimate Q-0855 — safe moving quote. Still need help? Reply to book." },
+    ],
+  },
+  {
+    id: "est-007",
+    estimateNumber: "Q-2024-0840",
+    clientName: "Gentle Giant Moving",
+    homeowner: "Patricia Chu",
+    services: ["Piano Prep", "Pool Table"],
+    quotedValue: 1560,
+    daysOpen: 45,
+    createdDate: "2026-01-13",
+    lastFollowUp: "2026-02-20",
+    status: "stale",
+    followUps: [
+      { date: "2026-01-20T10:00:00Z", method: "email", message: "Hi Patricia — following up on piano prep + pool table estimate ($1,560)." },
+      { date: "2026-01-27T10:00:00Z", method: "email", message: "Patricia — second notice on Q-2024-0840. Pricing valid through end of January." },
+      { date: "2026-02-03T09:00:00Z", method: "sms", message: "Patricia, estimate expiring soon. Reply YES to book piano + pool table move!" },
+      { date: "2026-02-10T09:00:00Z", method: "email", message: "Final automated follow-up. Estimate Q-0840 open. Schedule before spots fill." },
+      { date: "2026-02-20T09:00:00Z", method: "email", message: "Monthly check-in — estimate still available. New move date? Let us know!" },
+    ],
+  },
+  {
+    id: "est-008",
+    estimateNumber: "Q-2024-0895",
+    clientName: "Bellhop Moving",
+    homeowner: "Ryan Nguyen",
+    services: ["Safe Moving"],
+    quotedValue: 390,
+    daysOpen: 7,
+    createdDate: "2026-02-20",
+    lastFollowUp: "2026-02-27",
+    status: "aging",
+    followUps: [
+      { date: "2026-02-24T10:00:00Z", method: "email", message: "Ryan — following up on your safe moving estimate ($390). RSG is fully certified for this service." },
+      { date: "2026-02-27T09:00:00Z", method: "sms", message: "Ryan — estimate Q-0895 still open. Ready to move that safe? Reply YES." },
+    ],
+  },
+  {
+    id: "est-009",
+    estimateNumber: "Q-2024-0863",
+    clientName: "North Star Relocation",
+    homeowner: "Amanda Price",
+    services: ["Fitness Equipment"],
+    quotedValue: 660,
+    daysOpen: 0,
+    createdDate: "2026-02-17",
+    lastFollowUp: "2026-02-22",
+    status: "converted",
+    followUps: [
+      { date: "2026-02-18T10:00:00Z", method: "email", message: "Amanda — your fitness equipment relocation estimate ($660)." },
+      { date: "2026-02-22T09:00:00Z", method: "sms", message: "Amanda, estimate Q-0863 — ready to book? Reply YES!", response: "YES please!" },
+    ],
+  },
+  {
+    id: "est-010",
+    estimateNumber: "Q-2024-0848",
+    clientName: "Atlas Van Lines — Dallas",
+    homeowner: "Carlos Iglesias",
+    services: ["Piano Prep", "Safe Moving"],
+    quotedValue: 1140,
+    daysOpen: 33,
+    createdDate: "2026-01-25",
+    lastFollowUp: "2026-02-25",
+    status: "stale",
+    followUps: [
+      { date: "2026-02-01T10:00:00Z", method: "email", message: "Carlos — following up on piano prep + safe moving estimate ($1,140)." },
+      { date: "2026-02-08T10:00:00Z", method: "email", message: "Second notice on Q-2024-0848. Pricing valid through month end." },
+      { date: "2026-02-15T09:00:00Z", method: "sms", message: "Carlos — estimate expiring soon. Book piano + safe move before Feb 28. Reply YES." },
+      { date: "2026-02-25T09:00:00Z", method: "email", message: "Final monthly follow-up. Still interested? Estimate Q-0848 available." },
+    ],
+  },
+]
+
+// ─── QA Reviews ─────────────────────────────────────────────────────────────
+
+export interface QAReview {
+  id: string
+  homeowner: string
+  jobId: string
+  vendorId: string
+  vendorName: string
+  serviceType: string
+  completedDate: string
+  score: number
+  comment: string
+  googleReviewTriggered: boolean
+  googleReviewLeft?: boolean
+  emmaSequence: { step: string; timestamp: string; message: string; response?: string }[]
+}
+
+export interface VendorQALeaderboard {
+  vendorId: string
+  vendorName: string
+  jobsDone: number
+  avgScore: number
+  totalScores: number
+}
+
+export const QA_REVIEWS: QAReview[] = [
+  {
+    id: "qa-001",
+    homeowner: "Thomas Wright",
+    jobId: "RSG-2852",
+    vendorId: "v5",
+    vendorName: "Lone Star Relocation",
+    serviceType: "Piano Prep",
+    completedDate: "2026-02-27",
+    score: 5,
+    comment: "Dmitri and his crew were fantastic. Handled our Yamaha with incredible care. Would use again.",
+    googleReviewTriggered: true,
+    googleReviewLeft: true,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-27T16:30:00Z", message: "Hi Thomas! Your piano relocation is complete. On a scale of 1–5, how would you rate today's service?" },
+      { step: "Score Received", timestamp: "2026-02-27T16:45:00Z", message: "5 — received from Thomas Wright.", response: "5" },
+      { step: "Google Review Ask", timestamp: "2026-02-27T16:46:00Z", message: "Fantastic! We're so glad you had a great experience. Would you mind leaving us a quick Google review? It helps us a lot! [link]", response: "Done! Just left one." },
+    ],
+  },
+  {
+    id: "qa-002",
+    homeowner: "Linda Park",
+    jobId: "RSG-2853",
+    vendorId: "v3",
+    vendorName: "Midwest Moving Pros",
+    serviceType: "Pool Table",
+    completedDate: "2026-02-22",
+    score: 4,
+    comment: "Good job overall, crew was a little late but very professional once on site.",
+    googleReviewTriggered: true,
+    googleReviewLeft: false,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-22T19:00:00Z", message: "Hi Linda! Your pool table move is done. How would you rate today's service? (1–5)" },
+      { step: "Score Received", timestamp: "2026-02-22T19:22:00Z", message: "4 — received from Linda Park.", response: "4" },
+      { step: "Google Review Ask", timestamp: "2026-02-22T19:23:00Z", message: "Great to hear! If you have a moment, a Google review would mean the world to our team. [link]" },
+    ],
+  },
+  {
+    id: "qa-003",
+    homeowner: "Rachel Kim",
+    jobId: "RSG-2859",
+    vendorId: "v4",
+    vendorName: "Pacific Coast Specialists",
+    serviceType: "Chandelier",
+    completedDate: "2026-02-25",
+    score: 5,
+    comment: "Beautiful work. Very careful with our antique chandelier. Highly recommend.",
+    googleReviewTriggered: true,
+    googleReviewLeft: true,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-25T17:00:00Z", message: "Hi Rachel! Your chandelier installation is complete. How was your experience today? (1–5)" },
+      { step: "Score Received", timestamp: "2026-02-25T17:38:00Z", message: "5 — received from Rachel Kim.", response: "5" },
+      { step: "Google Review Ask", timestamp: "2026-02-25T17:39:00Z", message: "Wonderful! You'd make our day by leaving a Google review — takes 60 seconds! [link]", response: "Happy to!" },
+    ],
+  },
+  {
+    id: "qa-004",
+    homeowner: "Kevin O'Brien",
+    jobId: "RSG-2854",
+    vendorId: "v4",
+    vendorName: "Pacific Coast Specialists",
+    serviceType: "Fitness Equipment",
+    completedDate: "2026-02-18",
+    score: 5,
+    comment: "Lena and team were super professional. Everything arrived in perfect condition.",
+    googleReviewTriggered: true,
+    googleReviewLeft: false,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-18T15:30:00Z", message: "Hi Kevin! Your fitness equipment move is done. Rate your experience 1–5?" },
+      { step: "Score Received", timestamp: "2026-02-18T16:02:00Z", message: "5 — received from Kevin O'Brien.", response: "5 — great team!" },
+      { step: "Google Review Ask", timestamp: "2026-02-18T16:03:00Z", message: "Awesome! Mind leaving a quick Google review? [link]" },
+    ],
+  },
+  {
+    id: "qa-005",
+    homeowner: "George Adams",
+    jobId: "RSG-2862",
+    vendorId: "v3",
+    vendorName: "Midwest Moving Pros",
+    serviceType: "Fitness Equipment",
+    completedDate: "2026-02-20",
+    score: 3,
+    comment: "Treadmill was scratched during the move. Team apologized but still frustrating.",
+    googleReviewTriggered: false,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-20T14:00:00Z", message: "Hi George! Your fitness equipment move is complete. How would you rate today's service? (1–5)" },
+      { step: "Score Received", timestamp: "2026-02-20T14:45:00Z", message: "3 — received from George Adams.", response: "3 — treadmill got scratched" },
+      { step: "Internal Alert", timestamp: "2026-02-20T14:46:00Z", message: "⚠️ Score below 4 — Google review request suppressed. Nick notified of George Adams complaint (RSG-2862, Midwest Moving Pros)." },
+    ],
+  },
+  {
+    id: "qa-006",
+    homeowner: "Priya Sharma",
+    jobId: "RSG-2857",
+    vendorId: "v2",
+    vendorName: "Northeast Specialty Movers",
+    serviceType: "Chandelier",
+    completedDate: "2026-02-15",
+    score: 5,
+    comment: "Absolutely flawless. Elena was incredibly skilled and careful.",
+    googleReviewTriggered: true,
+    googleReviewLeft: true,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-15T16:00:00Z", message: "Hi Priya! Your chandelier service is complete. How was your experience? (1–5)" },
+      { step: "Score Received", timestamp: "2026-02-15T16:20:00Z", message: "5 — received from Priya Sharma.", response: "5 — perfection!" },
+      { step: "Google Review Ask", timestamp: "2026-02-15T16:21:00Z", message: "That's wonderful! Please share it on Google when you get a chance! [link]", response: "Just did!" },
+    ],
+  },
+  {
+    id: "qa-007",
+    homeowner: "Marcus Davis",
+    jobId: "RSG-2850",
+    vendorId: "v3",
+    vendorName: "Midwest Moving Pros",
+    serviceType: "Fitness Equipment",
+    completedDate: "2026-02-10",
+    score: 5,
+    comment: "On time, professional, and quick. Couldn't ask for more.",
+    googleReviewTriggered: true,
+    googleReviewLeft: false,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-10T13:00:00Z", message: "Hi Marcus! Rate your experience today (1–5)?" },
+      { step: "Score Received", timestamp: "2026-02-10T13:30:00Z", message: "5 — received from Marcus Davis.", response: "5" },
+      { step: "Google Review Ask", timestamp: "2026-02-10T13:31:00Z", message: "Thanks! A Google review helps so much. [link]" },
+    ],
+  },
+  {
+    id: "qa-008",
+    homeowner: "Jennifer Mills",
+    jobId: "RSG-2847",
+    vendorId: "v1",
+    vendorName: "Rocky Mountain Services",
+    serviceType: "Piano Prep",
+    completedDate: "2026-02-08",
+    score: 5,
+    comment: "My Steinway is in perfect shape. The team treated it like it was their own instrument.",
+    googleReviewTriggered: true,
+    googleReviewLeft: true,
+    emmaSequence: [
+      { step: "Job Complete Text", timestamp: "2026-02-08T17:00:00Z", message: "Hi Jennifer! Your piano relocation is done. How was your experience? (1–5)" },
+      { step: "Score Received", timestamp: "2026-02-08T17:22:00Z", message: "5 — received from Jennifer Mills.", response: "5!!! Amazing team" },
+      { step: "Google Review Ask", timestamp: "2026-02-08T17:23:00Z", message: "So glad to hear it! Would you mind sharing that on Google? It means a lot to our team. [link]", response: "Of course! Done." },
+    ],
+  },
+]
+
+export const VENDOR_QA_LEADERBOARD: VendorQALeaderboard[] = [
+  { vendorId: "v1", vendorName: "Rocky Mountain Services", jobsDone: 187, avgScore: 4.9, totalScores: 142 },
+  { vendorId: "v5", vendorName: "Lone Star Relocation", jobsDone: 212, avgScore: 4.8, totalScores: 178 },
+  { vendorId: "v3", vendorName: "Midwest Moving Pros", jobsDone: 143, avgScore: 4.7, totalScores: 89 },
+  { vendorId: "v4", vendorName: "Pacific Coast Specialists", jobsDone: 76, avgScore: 4.4, totalScores: 54 },
+  { vendorId: "v2", vendorName: "Northeast Specialty Movers", jobsDone: 94, avgScore: 4.2, totalScores: 61 },
+  { vendorId: "v6", vendorName: "AllState Specialty Co.", jobsDone: 31, avgScore: 3.8, totalScores: 14 },
+]
+
+// ─── Billing ────────────────────────────────────────────────────────────────
+
+export type BillingStatus = "awaiting_paperwork" | "ready_to_bill" | "invoiced" | "paid"
+
+export interface BillingRecord {
+  id: string
+  jobId: string
+  clientName: string
+  services: string[]
+  billedAmount: number | null
+  status: BillingStatus
+  completedDate: string
+  daysSinceComplete: number
+  invoiceNumber?: string
+  notes?: string
+}
+
+export const BILLING_RECORDS: BillingRecord[] = [
+  {
+    id: "bill-001",
+    jobId: "RSG-2852",
+    clientName: "Syracuse Moving & Storage",
+    services: ["Piano Prep"],
+    billedAmount: 485,
+    status: "invoiced",
+    completedDate: "2026-02-27",
+    daysSinceComplete: 0,
+    invoiceNumber: "INV-RSG-2852",
+    notes: "Auto-invoice generated by Emma at job close",
+  },
+  {
+    id: "bill-002",
+    jobId: "RSG-2853",
+    clientName: "North Star Relocation",
+    services: ["Pool Table"],
+    billedAmount: 520,
+    status: "invoiced",
+    completedDate: "2026-02-22",
+    daysSinceComplete: 5,
+    invoiceNumber: "INV-RSG-2853",
+    notes: "Vendor paperwork delayed 3 days — invoice held",
+  },
+  {
+    id: "bill-003",
+    jobId: "RSG-2859",
+    clientName: "Atlas Van Lines — Seattle",
+    services: ["Chandelier"],
+    billedAmount: null,
+    status: "awaiting_paperwork",
+    completedDate: "2026-02-25",
+    daysSinceComplete: 2,
+    notes: "Pacific Coast Specialists — invoice outstanding",
+  },
+  {
+    id: "bill-004",
+    jobId: "RSG-2854",
+    clientName: "Bellhop Moving",
+    services: ["Fitness Equipment"],
+    billedAmount: 440,
+    status: "paid",
+    completedDate: "2026-02-18",
+    daysSinceComplete: 9,
+    invoiceNumber: "INV-RSG-2854",
+    notes: "Paid in full Feb 26",
+  },
+  {
+    id: "bill-005",
+    jobId: "RSG-2862",
+    clientName: "Two Men and a Truck — Columbus",
+    services: ["Fitness Equipment"],
+    billedAmount: null,
+    status: "awaiting_paperwork",
+    completedDate: "2026-02-20",
+    daysSinceComplete: 7,
+    notes: "QA complaint logged — billing held pending resolution",
+  },
+  {
+    id: "bill-006",
+    jobId: "RSG-2850",
+    clientName: "Apex Movers",
+    services: ["Fitness Equipment"],
+    billedAmount: 395,
+    status: "paid",
+    completedDate: "2026-02-10",
+    daysSinceComplete: 17,
+    invoiceNumber: "INV-RSG-2850",
+  },
+  {
+    id: "bill-007",
+    jobId: "RSG-2847-P",
+    clientName: "Gentle Giant Moving",
+    services: ["Piano Prep"],
+    billedAmount: 725,
+    status: "paid",
+    completedDate: "2026-02-08",
+    daysSinceComplete: 19,
+    invoiceNumber: "INV-RSG-2847P",
+  },
+  {
+    id: "bill-008",
+    jobId: "RSG-2857",
+    clientName: "Prestige Relocation",
+    services: ["Chandelier"],
+    billedAmount: 680,
+    status: "ready_to_bill",
+    completedDate: "2026-02-15",
+    daysSinceComplete: 12,
+    notes: "Vendor submitted paperwork Feb 20 — ready to invoice client",
+  },
+  {
+    id: "bill-009",
+    jobId: "RSG-2846",
+    clientName: "North Star Relocation",
+    services: ["Safe Moving", "Fitness Equipment"],
+    billedAmount: null,
+    status: "awaiting_paperwork",
+    completedDate: "2026-02-24",
+    daysSinceComplete: 3,
+  },
+  {
+    id: "bill-010",
+    jobId: "RSG-2843",
+    clientName: "Atlas Van Lines — Boston",
+    services: ["Artwork Installation"],
+    billedAmount: 820,
+    status: "invoiced",
+    completedDate: "2026-02-12",
+    daysSinceComplete: 15,
+    invoiceNumber: "INV-RSG-2843",
+    notes: "Awaiting client payment — net 30 terms",
+  },
+]
+
+// ─── Vendor Portal ──────────────────────────────────────────────────────────
+
+export type VendorJobStatus = "assigned" | "accepted" | "window_set" | "on_site" | "complete" | "paperwork_uploaded"
+
+export interface VendorPortalJob {
+  id: string
+  jobId: string
+  homeowner: string
+  homeownerAddress: string
+  serviceType: string
+  scheduledDate: string
+  serviceWindow?: string
+  status: VendorJobStatus
+  movingCo: string
+  specialNotes?: string
+  closeOutItems: string[]
+  earnings: number
+}
+
+export const VENDOR_PORTAL_JOBS: VendorPortalJob[] = [
+  {
+    id: "vp-001",
+    jobId: "RSG-2848",
+    homeowner: "Robert Chen",
+    homeownerAddress: "42 Beacon St, Boston, MA 02108",
+    serviceType: "Pool Table",
+    scheduledDate: "2026-03-06",
+    serviceWindow: "10:00 AM – 1:00 PM",
+    status: "window_set",
+    movingCo: "Syracuse Moving & Storage",
+    specialNotes: "8-ft Brunswick table, second floor via staircase",
+    closeOutItems: ["Mark on-site on arrival", "Upload pre/post photos", "Submit invoice within 72 hrs"],
+    earnings: 420,
+  },
+  {
+    id: "vp-002",
+    jobId: "RSG-2863",
+    homeowner: "Maria Vasquez",
+    homeownerAddress: "1807 SW 3rd Ave, Miami, FL 33130",
+    serviceType: "Artwork Installation",
+    scheduledDate: "2026-03-13",
+    status: "accepted",
+    movingCo: "North Star Relocation",
+    specialNotes: "15 pieces, museum-quality framing — white glove required",
+    closeOutItems: ["Mark on-site on arrival", "Upload condition photos", "Get homeowner signature", "Submit invoice within 72 hrs"],
+    earnings: 560,
+  },
+  {
+    id: "vp-003",
+    jobId: "RSG-2856",
+    homeowner: "Ana Castellano",
+    homeownerAddress: "3021 E 18th Ave, Denver, CO 80206",
+    serviceType: "Piano Prep",
+    scheduledDate: "2026-03-09",
+    status: "assigned",
+    movingCo: "Atlas Van Lines — Denver",
+    specialNotes: "Steinway Model D concert grand. Heavy lift crew required.",
+    closeOutItems: ["Accept job", "Set service window", "Mark on-site", "Upload photos", "Submit invoice"],
+    earnings: 680,
+  },
+  {
+    id: "vp-004",
+    jobId: "RSG-2851-CMP",
+    homeowner: "Diana Fletcher",
+    homeownerAddress: "211 Lake Shore Dr, Seattle, WA 98112",
+    serviceType: "Chandelier",
+    scheduledDate: "2026-02-20",
+    serviceWindow: "9:00 AM – 12:00 PM",
+    status: "complete",
+    movingCo: "Prestige Relocation",
+    specialNotes: "Murano glass chandelier — box + wrap included",
+    closeOutItems: ["Invoice submitted ✓", "Photos uploaded ✓", "Payment pending"],
+    earnings: 380,
+  },
+  {
+    id: "vp-005",
+    jobId: "RSG-2860",
+    homeowner: "Henry Larson",
+    homeownerAddress: "5500 Boulder Pkwy, Boulder, CO 80301",
+    serviceType: "Pool Table",
+    scheduledDate: "2026-03-11",
+    serviceWindow: "2:00 PM – 5:00 PM",
+    status: "window_set",
+    movingCo: "Gentle Giant Moving",
+    specialNotes: "7-ft Olhausen table, basement to truck — narrow stairs",
+    closeOutItems: ["Mark on-site on arrival", "Upload photos", "Submit invoice within 72 hrs"],
+    earnings: 390,
+  },
+]
+
 // ─── Chart Data ────────────────────────────────────────────────────────────
 
 export const JOB_VOLUME_BY_MONTH = [

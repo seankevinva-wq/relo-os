@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { LayoutDashboard, Briefcase, Zap, Activity, Shield, Menu, X, HelpCircle } from 'lucide-react'
+import { LayoutDashboard, Briefcase, Zap, Activity, Shield, Menu, X, HelpCircle, FileText, Star, DollarSign, Users } from 'lucide-react'
 
-type NavItem = { href: string; label: string; icon: React.ReactNode }
+type NavItem = { href: string; label: string; icon: React.ReactNode; section?: string }
 
 const NAV_ITEMS: NavItem[] = [
   { href: '/dashboard', label: 'Command Center', icon: <LayoutDashboard size={16} /> },
@@ -14,6 +14,10 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/dispatch', label: 'Auto-Dispatch', icon: <Zap size={16} /> },
   { href: '/ai-activity', label: 'Emma AI', icon: <Activity size={16} /> },
   { href: '/vendor-compliance', label: 'Vendor Compliance', icon: <Shield size={16} /> },
+  { href: '/estimates', label: 'Estimates', icon: <FileText size={16} />, section: 'growth' },
+  { href: '/qa-reviews', label: 'QA & Reviews', icon: <Star size={16} />, section: 'growth' },
+  { href: '/billing', label: 'Billing', icon: <DollarSign size={16} />, section: 'growth' },
+  { href: '/vendor-portal', label: 'Vendor Portal', icon: <Users size={16} />, section: 'growth' },
   { href: '/help', label: 'Help & Guide', icon: <HelpCircle size={16} /> },
 ]
 
@@ -93,29 +97,39 @@ function NavContent({ pathname, onClose }: { pathname: string; onClose?: () => v
 
       {/* Nav items */}
       <div className="flex flex-col gap-1">
-        {NAV_ITEMS.map(item => {
+        {NAV_ITEMS.map((item, idx) => {
           const active = pathname === item.href || pathname.startsWith(item.href + '/')
+          const prevItem = NAV_ITEMS[idx - 1]
+          const showDivider = item.section === 'growth' && (!prevItem || prevItem.section !== 'growth')
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onClose}
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
+            <div key={item.href}>
+              {showDivider && (
+                <div className="px-3 pt-3 pb-1">
+                  <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                    Pipeline
+                  </div>
+                </div>
               )}
-              style={active ? {
-                background: 'rgba(173,255,71,0.1)',
-                border: '1px solid rgba(173,255,71,0.25)',
-                boxShadow: '0 0 20px rgba(173,255,71,0.12)',
-                color: 'white',
-              } : {
-                color: 'rgba(255,255,255,0.6)',
-                border: '1px solid transparent',
-              }}
-            >
-              <span style={{ color: active ? '#ADFF47' : 'rgba(255,255,255,0.4)' }}>{item.icon}</span>
-              {item.label}
-            </Link>
+              <Link
+                href={item.href}
+                onClick={onClose}
+                className={cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
+                )}
+                style={active ? {
+                  background: 'rgba(173,255,71,0.1)',
+                  border: '1px solid rgba(173,255,71,0.25)',
+                  boxShadow: '0 0 20px rgba(173,255,71,0.12)',
+                  color: 'white',
+                } : {
+                  color: 'rgba(255,255,255,0.6)',
+                  border: '1px solid transparent',
+                }}
+              >
+                <span style={{ color: active ? '#ADFF47' : 'rgba(255,255,255,0.4)' }}>{item.icon}</span>
+                {item.label}
+              </Link>
+            </div>
           )
         })}
       </div>

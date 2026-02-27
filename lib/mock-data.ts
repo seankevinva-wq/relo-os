@@ -86,13 +86,24 @@ export interface AIEvent {
   timestamp: string
   channel: "sms" | "phone" | "email"
   contactName: string
-  contactRole: "homeowner" | "vendor" | "unknown"
+  contactRole: "homeowner" | "vendor" | "client" | "unknown"
   jobId: string
   summary: string
   outcome: "resolved" | "awaiting" | "escalated"
   isAfterHours: boolean
   transcript?: { sender: string; text: string }[]
-  category: "confirmation" | "info_chase" | "service_window" | "vendor_nudge" | "after_hours"
+  category: "confirmation" | "info_chase" | "service_window" | "vendor_nudge" | "after_hours" | "client_notification" | "invoice_generated"
+  invoicePreview?: {
+    invoiceNumber: string
+    vendorName: string
+    vendorEmail: string
+    jobId: string
+    serviceDate: string
+    serviceType: string
+    lineItems: { description: string; amount: number }[]
+    total: number
+    status: "sent" | "pending"
+  }
 }
 
 export interface VendorCompliance {
@@ -270,6 +281,7 @@ export const JOBS: Job[] = [
       { id: "m3", sender: "emma", text: "Got it! Destination floor and narrowest doorway?", timestamp: "2026-02-22T16:32:00Z" },
       { id: "m4", sender: "homeowner", text: "Going to the first floor game room. Doorways are 36\" — we measured.", timestamp: "2026-02-22T17:15:00Z" },
       { id: "m5", sender: "emma", text: "Perfect. Rocky Mountain Services is dispatched — Marco T. will be there March 6th, 1–4 PM. You'll get a day-before reminder. Text this number with any questions!", timestamp: "2026-02-23T09:10:00Z" },
+      { id: "m6", sender: "emma", text: "📤 Client notified — Jade Cogswell (Syracuse Moving & Storage) notified via email: service window confirmed March 6th, 10:00 AM – 1:00 PM.", timestamp: "2026-02-27T09:15:00Z" },
     ],
   },
 
@@ -381,6 +393,7 @@ export const JOBS: Job[] = [
     messages: [
       { id: "m1", sender: "emma", text: "Thomas! Your piano move is TODAY, March 27th. Dmitri from Lone Star arrives 10 AM–1 PM. He'll text 30 min ahead. Reply READY or call this number with any changes.", timestamp: "2026-02-27T07:30:00Z" },
       { id: "m2", sender: "homeowner", text: "Ready! Thank you!", timestamp: "2026-02-27T07:45:00Z" },
+      { id: "m3", sender: "emma", text: "📤 Client notified — Jade Cogswell (Syracuse Moving & Storage) notified via email: RSG-2852 is active today, Dmitri K. on-site.", timestamp: "2026-02-27T07:35:00Z" },
     ],
   },
 
@@ -941,6 +954,156 @@ export const AI_EVENTS: AIEvent[] = [
     outcome: "awaiting",
     isAfterHours: true,
     category: "vendor_nudge",
+  },
+
+  // ── Service Window Collection SMS Flow (Feature 1) ──────────────────────
+  {
+    id: "ae_sw1",
+    timestamp: "2026-02-27T09:00:00Z",
+    channel: "sms",
+    contactName: "Marco T.",
+    contactRole: "vendor",
+    jobId: "RSG-2848",
+    summary: "Service window collected from Marco T. — 10 AM–1 PM confirmed for March 6th.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "vendor_nudge",
+    transcript: [
+      { sender: "Emma", text: "Hi Marco! You're scheduled for RSG-2848 (Robert Chen, Boston) on March 6th. Please reply with a 3-hour arrival window so we can notify the homeowner." },
+      { sender: "Marco T.", text: "10am-1pm works for me." },
+      { sender: "Emma", text: "Confirmed! Homeowner will be notified with your arrival window. See you March 6th!" },
+    ],
+  },
+  {
+    id: "ae_sw2",
+    timestamp: "2026-02-27T09:10:00Z",
+    channel: "sms",
+    contactName: "Robert Chen",
+    contactRole: "homeowner",
+    jobId: "RSG-2848",
+    summary: "Homeowner notified of Marco T.'s 10 AM–1 PM window. Confirmed.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "service_window",
+    transcript: [
+      { sender: "Emma", text: "Robert! Your pool table tech Marco will arrive March 6th, 10 AM–1 PM. Reply YES to confirm the window." },
+      { sender: "Robert Chen", text: "YES — perfect" },
+      { sender: "Emma", text: "Great, you're all set! Marco will text you 30 min before arrival." },
+    ],
+  },
+  {
+    id: "ae_sw3",
+    timestamp: "2026-02-26T16:00:00Z",
+    channel: "sms",
+    contactName: "Ray V.",
+    contactRole: "vendor",
+    jobId: "RSG-2860",
+    summary: "Service window collected from Ray V. — 2 PM–5 PM confirmed for March 11th pool table job.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "vendor_nudge",
+    transcript: [
+      { sender: "Emma", text: "Hi Ray! You're scheduled for RSG-2860 (pool table, March 11th). Please reply with a 3-hour arrival window." },
+      { sender: "Ray V.", text: "2pm-5pm works for me on the 11th." },
+      { sender: "Emma", text: "Confirmed! Homeowner has been notified. See you March 11th!" },
+    ],
+  },
+
+  // ── Moving Company Client Notifications (Feature 2) ─────────────────────
+  {
+    id: "ae_cn1",
+    timestamp: "2026-02-27T09:15:00Z",
+    channel: "email",
+    contactName: "Jade Cogswell",
+    contactRole: "client",
+    jobId: "RSG-2848",
+    summary: "Syracuse Moving & Storage notified — RSG-2848 service window confirmed March 6th, 10 AM–1 PM.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "client_notification",
+    transcript: [
+      { sender: "Emma", text: "Hi Jade — just a heads-up that RSG-2848 (Robert Chen, Boston) is confirmed for March 6th, 10:00 AM – 1:00 PM. Marco T. is on-site. No action needed on your end!" },
+      { sender: "Jade Cogswell", text: "Thanks! 👍" },
+    ],
+  },
+  {
+    id: "ae_cn2",
+    timestamp: "2026-02-27T07:35:00Z",
+    channel: "email",
+    contactName: "Jade Cogswell",
+    contactRole: "client",
+    jobId: "RSG-2852",
+    summary: "Syracuse Moving & Storage notified — RSG-2852 is active today, Dmitri K. on-site.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "client_notification",
+    transcript: [
+      { sender: "Emma", text: "Hi Jade — RSG-2852 (Thomas Wright, Nashville) is active today. Dmitri K. from Lone Star is on-site now. We'll send a completion notification when the job wraps up." },
+    ],
+  },
+
+  // ── Auto-Invoice Generation (Feature 4) ─────────────────────────────────
+  {
+    id: "ae_inv1",
+    timestamp: "2026-02-27T14:00:00Z",
+    channel: "email",
+    contactName: "Dmitri K. / Lone Star Relocation",
+    contactRole: "vendor",
+    jobId: "RSG-2852",
+    summary: "Job complete — Emma auto-generated and emailed INV-2852-LSR ($485.00) to Lone Star Relocation.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "invoice_generated",
+    transcript: [
+      { sender: "Emma", text: "RSG-2852 marked complete. Auto-generating invoice INV-2852-LSR for Lone Star Relocation..." },
+      { sender: "Emma", text: "Invoice INV-2852-LSR ($485.00) generated and emailed to dmitri@lonestarrelocation.com. Vendor has 72 hours to confirm receipt." },
+    ],
+    invoicePreview: {
+      invoiceNumber: "INV-2852-LSR",
+      vendorName: "Lone Star Relocation",
+      vendorEmail: "dmitri@lonestarrelocation.com",
+      jobId: "RSG-2852",
+      serviceDate: "2026-02-27",
+      serviceType: "Piano Prep",
+      lineItems: [
+        { description: "Piano Prep — Yamaha U3 Upright", amount: 380 },
+        { description: "Staircase surcharge", amount: 0 },
+        { description: "RSG service fee", amount: 105 },
+      ],
+      total: 485,
+      status: "sent",
+    },
+  },
+  {
+    id: "ae_inv2",
+    timestamp: "2026-02-22T18:30:00Z",
+    channel: "email",
+    contactName: "Bryan A. / Midwest Moving Pros",
+    contactRole: "vendor",
+    jobId: "RSG-2853",
+    summary: "Job complete — Emma auto-generated and emailed INV-2853-MMP ($520.00) to Midwest Moving Pros.",
+    outcome: "resolved",
+    isAfterHours: false,
+    category: "invoice_generated",
+    transcript: [
+      { sender: "Emma", text: "RSG-2853 marked complete. Auto-generating invoice INV-2853-MMP for Midwest Moving Pros..." },
+      { sender: "Emma", text: "Invoice INV-2853-MMP ($520.00) generated and emailed to bryan@midwestmovingpros.com. Vendor has 72 hours to confirm receipt." },
+    ],
+    invoicePreview: {
+      invoiceNumber: "INV-2853-MMP",
+      vendorName: "Midwest Moving Pros",
+      vendorEmail: "bryan@midwestmovingpros.com",
+      jobId: "RSG-2853",
+      serviceDate: "2026-02-22",
+      serviceType: "Pool Table",
+      lineItems: [
+        { description: "Pool Table — Olhausen Sheridan 8-ft", amount: 420 },
+        { description: "Elevator building surcharge", amount: 40 },
+        { description: "RSG service fee", amount: 60 },
+      ],
+      total: 520,
+      status: "sent",
+    },
   },
 ]
 

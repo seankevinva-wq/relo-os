@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { AI_EVENTS, type AIEvent } from '@/lib/mock-data'
 import { MessageSquare, Phone, Mail, CheckCircle, Clock, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react'
 
-type Filter = 'all' | 'after_hours' | 'confirmation' | 'info_chase' | 'service_window' | 'vendor_nudge'
+type Filter = 'all' | 'after_hours' | 'confirmation' | 'info_chase' | 'service_window' | 'vendor_nudge' | 'client_notification' | 'invoice_generated'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -13,6 +13,8 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'info_chase', label: 'Info Chase' },
   { id: 'service_window', label: 'Service Windows' },
   { id: 'vendor_nudge', label: 'Vendor Nudges' },
+  { id: 'client_notification', label: 'Client Updates' },
+  { id: 'invoice_generated', label: 'Auto-Invoices' },
 ]
 
 const CHANNEL_ICON: Record<string, React.ReactNode> = {
@@ -37,8 +39,20 @@ function AIEventRow({ event }: { event: AIEvent }) {
     <div
       className="rounded-2xl transition-all"
       style={{
-        background: event.isAfterHours ? 'rgba(251,191,36,0.04)' : 'rgba(255,255,255,0.03)',
-        border: event.isAfterHours ? '1px solid rgba(251,191,36,0.15)' : '1px solid rgba(255,255,255,0.08)',
+        background: event.isAfterHours
+          ? 'rgba(251,191,36,0.04)'
+          : event.category === 'invoice_generated'
+          ? 'rgba(173,255,71,0.04)'
+          : event.category === 'client_notification'
+          ? 'rgba(96,165,250,0.04)'
+          : 'rgba(255,255,255,0.03)',
+        border: event.isAfterHours
+          ? '1px solid rgba(251,191,36,0.15)'
+          : event.category === 'invoice_generated'
+          ? '1px solid rgba(173,255,71,0.15)'
+          : event.category === 'client_notification'
+          ? '1px solid rgba(96,165,250,0.15)'
+          : '1px solid rgba(255,255,255,0.08)',
       }}
     >
       <div className="p-4 flex items-start gap-4">
@@ -61,6 +75,11 @@ function AIEventRow({ event }: { event: AIEvent }) {
                 AFTER HOURS
               </span>
             )}
+            {event.contactRole === 'client' && (
+              <span className="text-xs px-2 py-0.5 rounded font-semibold" style={{ background: 'rgba(96,165,250,0.15)', color: '#60a5fa' }}>
+                CLIENT
+              </span>
+            )}
             <span className="text-xs capitalize px-2 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)' }}>
               {event.channel.toUpperCase()}
             </span>
@@ -79,7 +98,7 @@ function AIEventRow({ event }: { event: AIEvent }) {
           >
             {outcome.icon} {outcome.label}
           </span>
-          {event.transcript && event.transcript.length > 0 && (
+          {((event.transcript && event.transcript.length > 0) || event.invoicePreview) && (
             <button
               onClick={() => setExpanded(!expanded)}
               className="w-7 h-7 flex items-center justify-center rounded-lg"
@@ -91,10 +110,10 @@ function AIEventRow({ event }: { event: AIEvent }) {
         </div>
       </div>
 
-      {expanded && event.transcript && (
+      {expanded && (event.transcript || event.invoicePreview) && (
         <div className="px-4 pb-4 border-t space-y-2" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
           <div className="pt-3" />
-          {event.transcript.map((msg, i) => {
+          {event.transcript && event.transcript.map((msg, i) => {
             const isEmma = msg.sender === 'Emma' || msg.sender.startsWith('Emma')
             return (
               <div key={i} className={`flex ${isEmma ? 'justify-end' : 'justify-start'}`}>
@@ -118,6 +137,36 @@ function AIEventRow({ event }: { event: AIEvent }) {
               </div>
             )
           })}
+          {event.invoicePreview && (
+            <div className="mt-3 rounded-xl p-4" style={{ background: 'rgba(173,255,71,0.04)', border: '1px solid rgba(173,255,71,0.15)' }}>
+              <div className="flex items-start justify-between mb-3 gap-3">
+                <div>
+                  <span className="font-mono font-bold text-white text-sm">{event.invoicePreview.invoiceNumber}</span>
+                  <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    {event.invoicePreview.vendorName} · {event.invoicePreview.vendorEmail}
+                  </div>
+                </div>
+                <span className="text-xs px-2 py-1 rounded-full font-medium shrink-0" style={{ background: 'rgba(173,255,71,0.15)', color: '#ADFF47' }}>
+                  Sent ✓
+                </span>
+              </div>
+              <div className="space-y-1.5 mb-3">
+                {event.invoicePreview.lineItems.map((item, i) => (
+                  <div key={i} className="flex justify-between text-sm gap-4">
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }}>{item.description}</span>
+                    {item.amount === 0
+                      ? <span style={{ color: 'rgba(255,255,255,0.3)' }}>included</span>
+                      : <span className="text-white shrink-0">${item.amount.toFixed(2)}</span>
+                    }
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between pt-2 border-t" style={{ borderColor: 'rgba(173,255,71,0.15)' }}>
+                <span className="text-sm font-semibold text-white">Total</span>
+                <span className="text-sm font-bold" style={{ color: '#ADFF47' }}>${event.invoicePreview.total.toFixed(2)}</span>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -127,11 +176,12 @@ function AIEventRow({ event }: { event: AIEvent }) {
 export default function AIActivityPage() {
   const [activeFilter, setActiveFilter] = useState<Filter>('all')
 
-  const filtered = activeFilter === 'all'
+  const filtered = (activeFilter === 'all'
     ? AI_EVENTS
     : activeFilter === 'after_hours'
     ? AI_EVENTS.filter(e => e.isAfterHours)
     : AI_EVENTS.filter(e => e.category === activeFilter)
+  ).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 
   const afterHoursCount = AI_EVENTS.filter(e => e.isAfterHours).length
   const resolvedCount = AI_EVENTS.filter(e => e.outcome === 'resolved').length
@@ -141,7 +191,9 @@ export default function AIActivityPage() {
     { label: 'Confirmations handled', value: '34', color: '#ADFF47' },
     { label: 'After-hours intercepted', value: afterHoursCount.toString(), color: '#fbbf24' },
     { label: 'Info items collected', value: '67', color: '#60a5fa' },
-    { label: 'Vendor nudges', value: '19', color: '#a78bfa' },
+    { label: 'Vendor nudges', value: '21', color: '#a78bfa' },
+    { label: 'Client updates sent', value: '14', color: '#60a5fa' },
+    { label: 'Auto-invoices generated', value: '2', color: '#ADFF47' },
     { label: 'Escalated to human', value: escalatedCount.toString(), color: '#f87171' },
   ]
 

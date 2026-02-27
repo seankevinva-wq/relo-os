@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { LayoutDashboard, Briefcase, Zap, Activity, Shield, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Briefcase, Zap, Activity, Shield, Menu, X, HelpCircle } from 'lucide-react'
 
 type NavItem = { href: string; label: string; icon: React.ReactNode }
 
@@ -14,6 +14,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/dispatch', label: 'Auto-Dispatch', icon: <Zap size={16} /> },
   { href: '/ai-activity', label: 'Emma AI', icon: <Activity size={16} /> },
   { href: '/vendor-compliance', label: 'Vendor Compliance', icon: <Shield size={16} /> },
+  { href: '/help', label: 'Help & Guide', icon: <HelpCircle size={16} /> },
 ]
 
 export function Nav() {

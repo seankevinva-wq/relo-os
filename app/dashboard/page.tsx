@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { JOBS, JOB_VOLUME_BY_MONTH, AI_EVENTS, getJobVendor } from '@/lib/mock-data'
 import { StatusBadge } from '@/components/status-badge'
 import { fmtDate } from '@/lib/utils'
-import { AlertTriangle, Clock, TrendingUp, CheckCircle, Zap, MessageSquare, Phone, Mail } from 'lucide-react'
+import { AlertTriangle, Clock, TrendingUp, CheckCircle, Zap, MessageSquare, Phone, Mail, FileText } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 const CHANNEL_ICON: Record<string, React.ReactNode> = {
@@ -52,6 +52,28 @@ export default function DashboardPage() {
             <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>{kpi.sub}</div>
           </div>
         ))}
+      </div>
+
+      {/* Open Estimates Banner */}
+      <div className="rounded-2xl p-5" style={{ background: 'rgba(173,255,71,0.04)', border: '1px solid rgba(173,255,71,0.18)' }}>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-3">
+            <FileText size={20} style={{ color: '#ADFF47' }} />
+            <div>
+              <div className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Open Estimates</div>
+              <div className="text-3xl font-bold" style={{ color: '#ADFF47' }}>1,437</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-6 flex-wrap">
+            <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <span className="text-white font-medium">31</span> followed up this week · Emma chased estimates automatically
+            </div>
+            <div className="w-px h-8 hidden sm:block" style={{ background: 'rgba(255,255,255,0.12)' }} />
+            <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <span className="font-medium" style={{ color: '#ADFF47' }}>8 converted to orders</span> · ~26% follow-up conversion rate
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Main grid */}

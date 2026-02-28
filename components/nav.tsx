@@ -18,6 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/qa-reviews', label: 'QA & Reviews', icon: <Star size={16} />, section: 'growth' },
   { href: '/billing', label: 'Billing', icon: <DollarSign size={16} />, section: 'growth' },
   { href: '/vendor-portal', label: 'Vendor Portal', icon: <Users size={16} />, section: 'growth' },
+  { href: '/proposal', label: 'Our Proposal', icon: <FileText size={16} />, section: 'help' },
   { href: '/help', label: 'Help & Guide', icon: <HelpCircle size={16} />, section: 'help' },
 ]
 

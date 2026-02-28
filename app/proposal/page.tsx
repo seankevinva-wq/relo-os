@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {
   FileText, AlertTriangle, Zap, Activity, TrendingUp, Bot,
   CheckCircle, ArrowRight, Mail, Phone, Star, DollarSign,
-  Briefcase, Shield, Users, LayoutDashboard, MessageSquare, Flame,
+  Briefcase, Shield, Users, LayoutDashboard, MessageSquare, Flame, Clock,
 } from 'lucide-react'
 
 const ACCENT = '#ADFF47'
@@ -192,6 +192,72 @@ export default function ProposalPage() {
             </p>
           </div>
         </div>
+
+        {/* COI Block */}
+        <div className="glass rounded-xl overflow-hidden mt-5">
+          <div
+            className="px-4 py-3"
+            style={{ background: `${AMBER}12`, borderBottom: `1px solid ${AMBER}30` }}
+          >
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: AMBER }}
+            >
+              What this costs today
+            </span>
+          </div>
+          {[
+            {
+              label: 'CS team — 700 warm handoff calls',
+              monthly: '$2,400/mo',
+              source: '~116 hrs × $25/hr labor',
+            },
+            {
+              label: "Nick's morning service windows",
+              monthly: '$1,650/mo',
+              source: '45 min/day × 22 days × owner time',
+            },
+            {
+              label: 'Billing team paperwork chasing',
+              monthly: '$500/mo',
+              source: '~5 hrs/week manual follow-up',
+            },
+            {
+              label: '1,437 open estimates sitting idle',
+              monthly: '$10,800/mo',
+              source: '~0.5% better close × $1,500 avg job',
+            },
+          ].map((row, i) => (
+            <div
+              key={row.label}
+              className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 items-baseline"
+              style={{
+                background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                borderTop: '1px solid rgba(255,255,255,0.05)',
+              }}
+            >
+              <div>
+                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>{row.label}</div>
+                <div className="text-xs italic mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{row.source}</div>
+              </div>
+              <div className="text-sm font-bold shrink-0" style={{ color: AMBER }}>{row.monthly}</div>
+            </div>
+          ))}
+          {/* Total row */}
+          <div
+            className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 items-center"
+            style={{
+              background: `${ACCENT}0d`,
+              borderTop: `1px solid ${ACCENT}30`,
+            }}
+          >
+            <div>
+              <div className="text-sm font-bold text-white">Total recoverable value</div>
+              <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>$184,000+ per year if recovered</div>
+            </div>
+            <div className="text-xl font-black shrink-0" style={{ color: ACCENT }}>$15,350/mo</div>
+          </div>
+        </div>
       </SectionCard>
 
       {/* ── 4. The Opportunity ── */}
@@ -327,6 +393,7 @@ export default function ProposalPage() {
               problem: 'A 4-person customer service team manually calls every new transferee to confirm details, collect images, vehicle make/model, and gate codes.',
               solution: 'Emma reaches out automatically on every new order — confirms details, collects missing info via SMS, marks job confirmed.',
               impact: 'CS team can handle 5× volume without additional hires.',
+              payback: '~$2,400/mo',
             },
             {
               num: '02',
@@ -359,6 +426,7 @@ export default function ProposalPage() {
               problem: '"Every morning I\'m calling vendors for service windows" — Nick\'s daily routine adds 30–60 min to every workday.',
               solution: 'Emma sends a morning text blast to all vendors with active upcoming jobs: "Select your window for [job] on [date]." Window auto-populates back into the system.',
               impact: 'Nick\'s daily morning call routine eliminated entirely.',
+              payback: '~$1,650/mo',
             },
             {
               num: '06',
@@ -383,6 +451,7 @@ export default function ProposalPage() {
               problem: 'Monday morning PDF report: 1,437 open estimates sitting idle. No automated follow-up sequence in place.',
               solution: 'Emma replaces the PDF report with personalized automated follow-ups at Day 3, Day 7, and Day 21 — with a direct link to place the order.',
               impact: '1,437 open estimates actively worked, not just reported. Monday report generated automatically.',
+              payback: '~$10,800/mo',
             },
           ].map((mod) => (
             <div
@@ -417,6 +486,17 @@ export default function ProposalPage() {
                 >
                   <span className="font-semibold" style={{ color: ACCENT }}>Impact: </span>
                   <span style={{ color: 'rgba(255,255,255,0.75)' }}>{mod.impact}</span>
+                  {'payback' in mod && (
+                    <div className="inline-flex items-center gap-1.5 ml-3">
+                      <span
+                        className="w-1.5 h-1.5 rounded-full shrink-0"
+                        style={{ background: ACCENT }}
+                      />
+                      <span className="text-xs font-medium" style={{ color: 'rgba(173,255,71,0.7)' }}>
+                        Payback contribution: {(mod as { payback: string }).payback}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -520,137 +600,182 @@ export default function ProposalPage() {
         </div>
       </SectionCard>
 
-      {/* ── 8. Phasing ── */}
-      <SectionCard icon={<CheckCircle size={18} />} title="Engagement & Phasing">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Phase 1 */}
-          <div
-            className="rounded-xl p-5"
-            style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}30` }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <PhasePill phase={1} />
-              <span className="font-semibold text-white">Core Automation</span>
-            </div>
-            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              No mobile app dependency. Delivers immediate impact on your highest-pain workflows.
-            </p>
-            <div className="space-y-2">
-              {[
-                'Emma Warm Handoff',
-                'After-Hours AI Phone',
-                'Missing Info Chasing',
-                'Service Window Collection',
-                'Vendor Compliance Nudges',
-                'Open Estimate Follow-Up',
-                'QA + Google Review Funnel',
-              ].map((item) => (
-                <div key={item} className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  <CheckCircle size={12} style={{ color: ACCENT }} className="shrink-0" />
-                  {item}
+      {/* ── 8. 3-Month Roadmap ── */}
+      <SectionCard icon={<CheckCircle size={18} />} title="Your 3-Month Roadmap">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            {
+              month: '1',
+              label: 'Quick Wins',
+              accentColor: ACCENT,
+              modules: [
+                '01 Emma Warm Handoff',
+                '02 After-Hours Phone',
+                '05 Service Windows',
+              ],
+            },
+            {
+              month: '2',
+              label: 'Foundations',
+              accentColor: BLUE,
+              modules: [
+                '03 Missing Info Chasing',
+                '06 Vendor Compliance',
+                '07 QA Review Funnel',
+              ],
+            },
+            {
+              month: '3',
+              label: 'Scale',
+              accentColor: 'rgba(167,139,250,1)',
+              modules: [
+                '04 Smart Auto-Dispatch',
+                '08 Open Estimate Follow-Up',
+              ],
+            },
+          ].map((col) => (
+            <div
+              key={col.month}
+              className="rounded-xl p-4"
+              style={{ background: `${col.accentColor}08`, border: `1px solid ${col.accentColor}28` }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shrink-0"
+                  style={{ background: `${col.accentColor}20`, color: col.accentColor, border: `1px solid ${col.accentColor}40` }}
+                >
+                  {col.month}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Phase 2 */}
-          <div
-            className="rounded-xl p-5"
-            style={{ background: `${BLUE}08`, border: `1px solid ${BLUE}30` }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <PhasePill phase={2} />
-              <span className="font-semibold text-white">Full Platform</span>
-            </div>
-            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Builds on Phase 1. Requires mobile app coordination with service partners.
-            </p>
-            <div className="space-y-2">
-              {[
-                'Auto-Dispatch (full rules engine)',
-                'Auto-Invoice Generation',
-                'Shared Visibility Panel (RSG + vendor + moving co + homeowner)',
-                'GPS "I\'m on my way" tracking',
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  <CheckCircle size={12} style={{ color: BLUE }} className="shrink-0 mt-0.5" />
-                  {item}
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.35)' }}>Month {col.month}</div>
+                  <div className="text-sm font-semibold text-white">{col.label}</div>
                 </div>
-              ))}
+              </div>
+              <div className="space-y-2">
+                {col.modules.map((m) => (
+                  <div key={m} className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                    <CheckCircle size={11} style={{ color: col.accentColor }} className="shrink-0" />
+                    {m}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
+        </div>
+        {/* Phase 2 footnote */}
+        <div
+          className="mt-4 rounded-lg px-4 py-3 text-xs"
+          style={{ background: `${BLUE}0d`, border: `1px solid ${BLUE}25`, color: 'rgba(96,165,250,0.7)' }}
+        >
+          Phase 2 (Full Platform) available after month 3 — mobile app, GPS tracking, auto-invoice. $47,500 additional.
         </div>
       </SectionCard>
 
-      {/* ── 8b. Investment ── */}
+      {/* ── 8b. Investment — 2-Option Close ── */}
       <SectionCard icon={<DollarSign size={18} />} title="Investment">
+        <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          Two ways to start. One obvious choice.
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Phase 1 pricing */}
+          {/* Option A: Quick Win */}
           <div
             className="rounded-xl p-5"
-            style={{ background: `${ACCENT}06`, border: `1px solid ${ACCENT}25` }}
+            style={{ background: `${ACCENT}06`, border: `1px solid ${ACCENT}30` }}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <PhasePill phase={1} />
-              <span className="font-semibold text-white">Core Automation</span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-bold text-white">Quick Win</span>
+              <span
+                className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold"
+                style={{ background: `${ACCENT}18`, border: `1px solid ${ACCENT}40`, color: ACCENT }}
+              >
+                Start in 3 weeks
+              </span>
             </div>
-            <div className="space-y-3">
+            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              Modules 01, 02, 05 — Warm Handoff, After-Hours, Service Windows
+            </p>
+            <div className="space-y-2.5 mb-4">
               {[
-                { label: 'One-time build',               value: '$22,500' },
-                { label: 'Monthly retainer (maintenance + iteration)', value: '$1,800/mo' },
-                { label: 'Timeline',                     value: '8 weeks' },
+                { label: 'One-time build', value: '$9,500' },
+                { label: 'Monthly value unlocked', value: '~$4,550/mo' },
+                { label: 'First automation live', value: '2 weeks' },
               ].map((row) => (
                 <div key={row.label} className="flex justify-between items-baseline gap-4 text-sm">
                   <span style={{ color: 'rgba(255,255,255,0.55)' }}>{row.label}</span>
-                  <span className="font-bold shrink-0" style={{ color: ACCENT }}>
-                    {row.value}
-                  </span>
+                  <span className="font-bold shrink-0" style={{ color: ACCENT }}>{row.value}</span>
                 </div>
               ))}
-              <div
-                className="pt-3 mt-1 text-xs space-y-1"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.4)' }}
-              >
-                <div>Includes: 7 modules above</div>
-                <div>API integration with existing Relo platform</div>
-                <div>Emma persona + messaging templates</div>
-                <div>Testing + handoff</div>
-              </div>
+            </div>
+            {/* Payback callout */}
+            <div
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium"
+              style={{ background: `${ACCENT}10`, border: `1px solid ${ACCENT}28`, color: ACCENT }}
+            >
+              <Clock size={12} className="shrink-0" />
+              Investment back in ~2 months
             </div>
           </div>
 
-          {/* Phase 2 pricing */}
+          {/* Option B: Full Build (preferred) */}
           <div
-            className="rounded-xl p-5"
-            style={{ background: `${BLUE}06`, border: `1px solid ${BLUE}25` }}
+            className="rounded-xl p-5 relative"
+            style={{ background: `${ACCENT}09`, border: `2px solid ${ACCENT}50` }}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <PhasePill phase={2} />
-              <span className="font-semibold text-white">Full Platform</span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-bold text-white">Full Build</span>
+              <span
+                className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold"
+                style={{ background: ACCENT, color: '#000' }}
+              >
+                Recommended
+              </span>
             </div>
-            <div className="space-y-3">
+            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              All 7 Phase 1 modules — complete automation stack
+            </p>
+            <div className="space-y-2.5 mb-4">
               {[
-                { label: 'One-time build (on top of Phase 1)', value: '$47,500' },
-                { label: 'Timeline',                           value: '12–14 weeks' },
+                { label: 'One-time build', value: '$22,500' },
+                { label: 'Monthly retainer', value: '$1,800/mo' },
+                { label: 'Monthly value unlocked', value: '~$15,350/mo' },
+                { label: 'First automation live', value: '2 weeks' },
               ].map((row) => (
                 <div key={row.label} className="flex justify-between items-baseline gap-4 text-sm">
                   <span style={{ color: 'rgba(255,255,255,0.55)' }}>{row.label}</span>
-                  <span className="font-bold shrink-0" style={{ color: BLUE }}>
-                    {row.value}
-                  </span>
+                  <span className="font-bold shrink-0" style={{ color: ACCENT }}>{row.value}</span>
                 </div>
               ))}
-              <div
-                className="pt-3 mt-1 text-xs space-y-1"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.4)' }}
-              >
-                <div>Includes: Auto-dispatch rules engine</div>
-                <div>Auto-invoice generation</div>
-                <div>Shared visibility panel</div>
-                <div>Mobile app coordination</div>
-              </div>
+            </div>
+            {/* Payback callout — more prominent */}
+            <div
+              className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-semibold mb-3"
+              style={{ background: `${ACCENT}18`, border: `1px solid ${ACCENT}45`, color: ACCENT }}
+            >
+              <Clock size={14} className="shrink-0" />
+              Investment back in ~6 weeks
+            </div>
+            <div
+              className="pt-3 text-xs space-y-1"
+              style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.4)' }}
+            >
+              <div>Includes: 7 modules + API integration</div>
+              <div>Emma persona + messaging templates</div>
+              <div>Testing + handoff</div>
             </div>
           </div>
+        </div>
+
+        {/* Differentiator line */}
+        <p className="text-xs mt-3 text-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          $13,000 more gets you payback 4 weeks faster — the Estimates module works all 1,437 open opportunities the moment it ships.
+        </p>
+
+        {/* Phase 2 footnote */}
+        <div
+          className="mt-4 rounded-lg px-4 py-3 text-xs"
+          style={{ background: `${BLUE}0d`, border: `1px solid ${BLUE}25`, color: 'rgba(96,165,250,0.7)' }}
+        >
+          Phase 2 (Full Platform) available after month 3 — mobile app, GPS tracking, auto-invoice. $47,500 additional.
         </div>
       </SectionCard>
 
@@ -658,9 +783,24 @@ export default function ProposalPage() {
       <SectionCard icon={<ArrowRight size={18} />} title="Next Steps">
         <div className="space-y-4 mb-8">
           {[
-            { num: '1', label: 'Review this MVP and share feedback', desc: 'Explore every page. Click everything. Tell us what resonates and what needs adjustment.' },
-            { num: '2', label: 'Schedule a follow-up', desc: 'We\'ll walk through Phase 1 scope in detail, confirm priorities, and finalize the engagement.' },
-            { num: '3', label: 'Begin Phase 1 build', desc: 'Start with the 7 modules that deliver immediate impact — no mobile app required.' },
+            {
+              num: '1',
+              label: 'Sign the engagement letter',
+              desc: 'Choose your option above. We\'ll send the letter and invoice within 24 hours.',
+              accent: false,
+            },
+            {
+              num: '2',
+              label: 'Book your onboarding call',
+              desc: 'Within 48 hours of signing, we schedule a 60-minute kickoff to lock in templates, credentials, and message tone.',
+              accent: false,
+            },
+            {
+              num: '3',
+              label: 'First automation live in 2 weeks',
+              desc: 'Module 01 (Emma Warm Handoff) or Module 02 (After-Hours) deploys first — you\'ll see Emma in action within 14 days of signing.',
+              accent: true,
+            },
           ].map((step) => (
             <div key={step.num} className="flex gap-4">
               <span
@@ -670,7 +810,12 @@ export default function ProposalPage() {
                 {step.num}
               </span>
               <div>
-                <div className="text-sm font-semibold text-white">{step.label}</div>
+                <div
+                  className="text-sm font-semibold"
+                  style={{ color: step.accent ? ACCENT : 'white' }}
+                >
+                  {step.label}
+                </div>
                 <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</div>
               </div>
             </div>

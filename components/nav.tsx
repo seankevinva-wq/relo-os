@@ -18,7 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/qa-reviews', label: 'QA & Reviews', icon: <Star size={16} />, section: 'growth' },
   { href: '/billing', label: 'Billing', icon: <DollarSign size={16} />, section: 'growth' },
   { href: '/vendor-portal', label: 'Vendor Portal', icon: <Users size={16} />, section: 'growth' },
-  { href: '/help', label: 'Help & Guide', icon: <HelpCircle size={16} /> },
+  { href: '/help', label: 'Help & Guide', icon: <HelpCircle size={16} />, section: 'help' },
 ]
 
 export function Nav() {
@@ -106,13 +106,14 @@ function NavContent({ pathname, onClose }: { pathname: string; onClose?: () => v
         {NAV_ITEMS.map((item, idx) => {
           const active = pathname === item.href || pathname.startsWith(item.href + '/')
           const prevItem = NAV_ITEMS[idx - 1]
-          const showDivider = item.section === 'growth' && (!prevItem || prevItem.section !== 'growth')
+          const showDivider = (item.section === 'growth' && (!prevItem || prevItem.section !== 'growth'))
+            || (item.section === 'help' && (!prevItem || prevItem.section !== 'help'))
           return (
             <div key={item.href}>
               {showDivider && (
                 <div className="px-3 pt-3 pb-1">
                   <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.2)' }}>
-                    Pipeline
+                    {item.section === 'help' ? 'Help' : 'Pipeline'}
                   </div>
                 </div>
               )}

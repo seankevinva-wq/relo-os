@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { JOBS, getJobVendor, STATUS_LABELS, type JobStatus } from '@/lib/mock-data'
 import { StatusBadge } from '@/components/status-badge'
 import { fmtDate } from '@/lib/utils'
@@ -29,6 +30,7 @@ function filterJobs(filter: Filter) {
 
 export default function JobsPage() {
   const [activeFilter, setActiveFilter] = useState<Filter>('all')
+  const router = useRouter()
   const jobs = filterJobs(activeFilter)
 
   return (
@@ -44,7 +46,7 @@ export default function JobsPage() {
           <button
             key={f.id}
             onClick={() => setActiveFilter(f.id)}
-            className="px-4 py-2 rounded-xl text-sm font-medium transition-all"
+            className="px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer"
             style={activeFilter === f.id ? {
               background: 'rgba(173,255,71,0.1)',
               border: '1px solid rgba(173,255,71,0.3)',
@@ -84,9 +86,11 @@ export default function JobsPage() {
               return (
                 <tr
                   key={job.id}
+                  onClick={() => router.push(`/jobs/${job.id}`)}
                   style={{
                     borderBottom: '1px solid rgba(255,255,255,0.05)',
                     background: isAtRisk ? 'rgba(251,191,36,0.03)' : 'transparent',
+                    cursor: 'pointer',
                   }}
                 >
                   <td className="px-4 py-3">
@@ -113,7 +117,7 @@ export default function JobsPage() {
                     <StatusBadge status={job.status} />
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2" title={`${collected} of ${total} required info items collected from homeowner`}>
                       <div className="w-16 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
                         <div
                           className="h-full rounded-full transition-all"

@@ -11,9 +11,11 @@ const DISPATCH_JOB_IDS = ['RSG-2851', 'RSG-2856', 'RSG-2863']
 
 function ScoreCounter({ target, active }: { target: number; active: boolean }) {
   const [score, setScore] = useState(0)
+  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   useEffect(() => {
     if (!active) { setScore(0); return }
+    if (prefersReducedMotion) { setScore(target); return }
     const duration = 1200
     const start = Date.now()
     const timer = setInterval(() => {
@@ -24,7 +26,7 @@ function ScoreCounter({ target, active }: { target: number; active: boolean }) {
       if (progress >= 1) clearInterval(timer)
     }, 16)
     return () => clearInterval(timer)
-  }, [target, active])
+  }, [target, active, prefersReducedMotion])
 
   return (
     <span
@@ -248,7 +250,7 @@ export default function DispatchPage() {
                   {isDispatched ? (
                     <><CheckCircle size={14} /> Dispatched</>
                   ) : (
-                    <><Zap size={14} /> Auto-Dispatch {recommendedVendor?.name.split(' ')[0]}</>
+                    <><Zap size={14} /> Dispatch to {recommendedVendor?.name.split(' ').slice(0, 2).join(' ')}</>
                   )}
                 </button>
               </div>

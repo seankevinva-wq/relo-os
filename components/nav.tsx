@@ -29,11 +29,12 @@ export function Nav() {
     <>
       {/* Mobile hamburger */}
       <button
-        className="fixed top-3 left-3 z-50 flex md:hidden items-center justify-center w-9 h-9 rounded-xl"
+        className="fixed top-3 left-3 z-50 flex md:hidden items-center justify-center w-11 h-11 rounded-xl cursor-pointer"
         style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
         onClick={() => setMobileOpen(true)}
+        aria-label="Open navigation menu"
       >
-        <Menu size={16} className="text-white" />
+        <Menu size={18} className="text-white" />
       </button>
 
       {/* Desktop sidebar */}
@@ -80,8 +81,13 @@ function NavContent({ pathname, onClose }: { pathname: string; onClose?: () => v
           </div>
         </div>
         {onClose && (
-          <button onClick={onClose} style={{ color: 'rgba(255,255,255,0.3)' }}>
-            <X size={14} />
+          <button
+            onClick={onClose}
+            className="flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer"
+            style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.05)' }}
+            aria-label="Close navigation menu"
+          >
+            <X size={16} />
           </button>
         )}
       </div>

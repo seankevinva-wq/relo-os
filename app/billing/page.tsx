@@ -86,7 +86,7 @@ function Drawer({ record, onClose }: { record: BillingRecord; onClose: () => voi
               <span className="text-xs font-semibold" style={{ color: '#fbbf24' }}>Ready for Auto-Invoice</span>
             </div>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Vendor paperwork received. Emma can generate and send the client invoice automatically once the mobile app close-out workflow is complete.
+              Vendor paperwork received and matched. Emma will generate and send the client invoice automatically — no staff action required.
             </p>
           </div>
         )}

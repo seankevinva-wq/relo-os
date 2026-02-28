@@ -63,6 +63,9 @@
   body {
     @apply bg-transparent text-foreground;
   }
+  button {
+    cursor: pointer;
+  }
 }
 
 /* Glass card utility */
@@ -71,6 +74,11 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover {
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  cursor: pointer;
 }
 
 .glass-hover:hover {
@@ -85,6 +93,25 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Focus rings for keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgba(173, 255, 71, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Thin scrollbar */

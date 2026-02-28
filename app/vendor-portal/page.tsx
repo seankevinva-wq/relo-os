@@ -235,7 +235,7 @@ function JobDetailDrawer({ job, onClose, onAction }: { job: VendorPortalJob; onC
           </div>
         </div>
 
-        {cfg.next && (
+        {cfg.next ? (
           <button
             onClick={() => { onAction(job.id, cfg.next!); onClose() }}
             className="mt-auto w-full py-3 rounded-xl text-sm font-bold transition-all"
@@ -243,6 +243,11 @@ function JobDetailDrawer({ job, onClose, onAction }: { job: VendorPortalJob; onC
           >
             {cfg.next}
           </button>
+        ) : job.status === 'paperwork_uploaded' && (
+          <div className="mt-auto p-4 rounded-xl text-center" style={{ background: 'rgba(173,255,71,0.06)', border: '1px solid rgba(173,255,71,0.2)' }}>
+            <div className="text-sm font-semibold mb-1" style={{ color: '#ADFF47' }}>✓ All done — paperwork received</div>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>RSG is processing your invoice. Payment typically within 5–7 business days.</p>
+          </div>
         )}
       </div>
     </div>

@@ -25,6 +25,7 @@ function NudgeTimeline({ nudges }: { nudges: VendorCompliance['nudges'] }) {
           <div className="flex flex-col items-center">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold"
+              title={nudge.escalated ? 'Escalated to Nick' : `Day ${nudge.day} automated nudge`}
               style={{
                 background: nudge.escalated ? 'rgba(248,113,113,0.15)' : 'rgba(255,255,255,0.06)',
                 border: nudge.escalated ? '2px solid rgba(248,113,113,0.4)' : '2px solid rgba(255,255,255,0.1)',
@@ -99,8 +100,11 @@ function Drawer({ vc, onClose }: { vc: VendorCompliance; onClose: () => void }) 
         </div>
 
         <div>
-          <div className="text-xs font-semibold tracking-wide uppercase mb-4" style={{ color: 'rgba(255,255,255,0.35)' }}>
-            Automated Nudge Sequence
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-xs font-semibold tracking-wide uppercase" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Automated Nudge Sequence
+            </div>
+            <div className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>D0 = day of service</div>
           </div>
           <NudgeTimeline nudges={vc.nudges} />
           {vc.nudges.length === 0 && vc.status === 'on_track' && (

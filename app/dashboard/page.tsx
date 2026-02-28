@@ -107,7 +107,7 @@ export default function DashboardPage() {
                     <div className="text-sm font-medium text-white truncate">{job.homeowner}</div>
                     <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>{job.serviceType} · {job.city}, {job.state}</div>
                   </div>
-                  <div className="text-right shrink-0">
+                  <div className="text-right shrink-0" title={`${collected} of ${total} homeowner info items collected`}>
                     <div className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>Info</div>
                     <div className="text-xs font-semibold" style={{ color: collected === total ? '#ADFF47' : '#fbbf24' }}>{collected}/{total}</div>
                   </div>

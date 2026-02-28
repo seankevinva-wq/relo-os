@@ -276,8 +276,7 @@ export default function QAReviewsPage() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <X size={14} style={{ color: 'rgba(255,255,255,0)', display: 'none' }} />
-                    <span style={{ color: 'rgba(255,255,255,0.3)' }}>›</span>
+                    <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 18 }}>›</span>
                   </td>
                 </tr>
               ))}

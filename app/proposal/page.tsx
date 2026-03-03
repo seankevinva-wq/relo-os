@@ -735,14 +735,19 @@ export default function ProposalPage() {
           <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>
             Modules 01, 02, 05 — Warm Handoff, After-Hours Phone, Service Windows
           </p>
-          <div className="space-y-2.5 mb-5">
+          <div className="mb-5">
             {[
-              { label: 'One-time build', value: '$9,500' },
-              { label: 'Monthly value unlocked', value: '~$4,050/mo' },
-              { label: 'Payback', value: '~2.5 months' },
-              { label: 'First automation live', value: '2 weeks' },
-            ].map((row) => (
-              <div key={row.label} className="flex justify-between items-baseline gap-4 text-sm">
+              { label: 'One-time build',            value: '$9,500',       type: 'cost' },
+              { label: 'Monthly support & hosting', value: '$750/mo',      type: 'cost' },
+              { label: 'Monthly value unlocked',    value: '~$4,050/mo',   type: 'value' },
+              { label: 'Payback',                   value: '~2.5 months',  type: 'value' },
+              { label: 'First automation live',     value: '2 weeks',      type: 'value' },
+            ].map((row, i) => (
+              <div
+                key={row.label}
+                className="flex justify-between items-baseline gap-4 text-sm py-2"
+                style={i === 2 ? { borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: '4px', paddingTop: '10px' } : undefined}
+              >
                 <span style={{ color: 'rgba(255,255,255,0.55)' }}>{row.label}</span>
                 <span className="font-bold shrink-0" style={{ color: ACCENT }}>{row.value}</span>
               </div>
@@ -760,7 +765,7 @@ export default function ProposalPage() {
             className="pt-4 text-xs space-y-1"
             style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.4)' }}
           >
-            <div>Includes: 3 modules + Emma templates + testing + handoff</div>
+            <div>Includes: 3 modules + Emma templates + testing + handoff + ongoing support & hosting</div>
           </div>
         </div>
 

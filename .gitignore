@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# client assets (docs, emails, internal comms — not for version control)
+/assets/

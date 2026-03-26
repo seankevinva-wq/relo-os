@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RSG Phase 1 — Onboarding Call Prep</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #1a1a1a; background: #f5f5f3; padding: 40px 24px; }
+  .page { max-width: 860px; margin: 0 auto; }
+
+  /* ── Typography ── */
+  h1 { font-size: 26px; font-weight: 800; color: #111; }
+  h2 { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 12px; }
+  h3 { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  p  { color: #444; line-height: 1.6; }
+
+  /* ── Cards ── */
+  .card { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #e5e5e5; }
+  .card-accent { border-left: 4px solid #7c3aed; }
+  .card-green  { border-left: 4px solid #16a34a; }
+  .card-amber  { border-left: 4px solid #d97706; }
+  .card-blue   { border-left: 4px solid #2563eb; }
+  .card-red    { border-left: 4px solid #dc2626; }
+
+  /* ── Summary banner ── */
+  .summary-banner { background: #111; color: #fff; border-radius: 14px; padding: 28px 32px; margin-bottom: 28px; }
+  .summary-banner h1 { color: #fff; margin-bottom: 4px; }
+  .summary-banner .subtitle { color: #aaa; font-size: 13px; margin-bottom: 20px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .summary-stat { background: rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.1); }
+  .summary-stat .val { font-size: 22px; font-weight: 800; color: #a3e635; }
+  .summary-stat .lbl { font-size: 11px; color: #888; margin-top: 2px; }
+
+  /* ── People pills ── */
+  .people { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+  .person { background: #f8f8f8; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 14px; min-width: 160px; }
+  .person .name { font-weight: 700; font-size: 13px; color: #111; }
+  .person .role { font-size: 11px; color: #888; margin-top: 2px; }
+  .person .note { font-size: 11px; color: #555; margin-top: 4px; font-style: italic; }
+
+  /* ── Module visual ── */
+  .modules-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0; }
+  .module-card { border-radius: 10px; padding: 16px; border: 1px solid; }
+  .module-card .mod-num { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .module-card .mod-name { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .module-card .mod-what { font-size: 12px; color: #555; line-height: 1.5; }
+  .mod-01 { background: #f0fdf4; border-color: #bbf7d0; }
+  .mod-01 .mod-num { color: #16a34a; }
+  .mod-02 { background: #eff6ff; border-color: #bfdbfe; }
+  .mod-02 .mod-num { color: #2563eb; }
+  .mod-05 { background: #fefce8; border-color: #fde68a; }
+  .mod-05 .mod-num { color: #d97706; }
+
+  /* ── Flow diagram ── */
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 14px 0; }
+  .flow-step { background: #f8f8f8; border: 1px solid #ddd; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 500; text-align: center; min-width: 110px; }
+  .flow-step.emma { background: #f5f0ff; border-color: #c4b5fd; color: #5b21b6; font-weight: 700; }
+  .flow-step.human { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+  .flow-step.system { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+  .flow-arrow { font-size: 16px; color: #aaa; padding: 0 6px; }
+
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: #f5f5f3; text-align: left; padding: 8px 12px; font-weight: 600; color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e5e5e5; }
+  td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafafa; }
+  .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .badge-green  { background: #dcfce7; color: #15803d; }
+  .badge-amber  { background: #fef9c3; color: #92400e; }
+  .badge-red    { background: #fee2e2; color: #b91c1c; }
+  .badge-blue   { background: #dbeafe; color: #1e40af; }
+  .badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+  /* ── Checklist ── */
+  .checklist { list-style: none; margin: 10px 0; }
+  .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; color: #333; line-height: 1.5; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .checkbox { width: 16px; height: 16px; border: 2px solid #ccc; border-radius: 4px; flex-shrink: 0; margin-top: 1px; }
+  .checklist li .from { font-size: 11px; color: #888; margin-left: auto; flex-shrink: 0; padding-left: 12px; }
+  .checklist li strong { color: #111; }
+
+  /* ── Q&A blocks ── */
+  .qa-list { margin: 10px 0; }
+  .qa-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 3px; display: flex; align-items: flex-start; gap: 8px; }
+  .qa-q::before { content: 'Q'; background: #111; color: #fff; font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; }
+  .qa-why { font-size: 12px; color: #666; padding-left: 22px; font-style: italic; }
+
+  /* ── Section headers ── */
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
+  .section-num { width: 28px; height: 28px; border-radius: 50%; background: #111; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 24px; margin: 12px 0; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: #e5e5e5; }
+  .tl-item { position: relative; margin-bottom: 14px; }
+  .tl-dot { width: 14px; height: 14px; border-radius: 50%; position: absolute; left: -21px; top: 3px; border: 2px solid #fff; }
+  .tl-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .tl-text { font-size: 12px; color: #555; }
+
+  /* ── Warning box ── */
+  .warning { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 13px; color: #78350f; display: flex; gap: 8px; align-items: flex-start; }
+  .warning::before { content: '⚠'; flex-shrink: 0; }
+
+  /* ── Print ── */
+  @media print { body { background: #fff; } .summary-banner { background: #111 !important; -webkit-print-color-adjust: exact; } }
+
+  .divider { height: 1px; background: #e8e8e8; margin: 28px 0; }
+  .muted { color: #888; font-size: 12px; }
+  .mt8 { margin-top: 8px; }
+  .mt16 { margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════════════════════════════════════
+       SUMMARY BANNER
+  ══════════════════════════════════════════ -->
+  <div class="summary-banner">
+    <div class="subtitle">RSG × Jam AI · Phase 1 · Onboarding Reference Doc</div>
+    <h1>What We're Building & What We Need</h1>
+    <p style="color:#bbb; font-size:13px; margin-top:8px; max-width:580px;">
+      Three automations. One AI persona (Emma). All plugged into RSG's existing admin portal via Bitopan's API.
+      Phase 1 is fully self-contained — no mobile app, no rip-and-replace, no Phase 2 dependencies.
+    </p>
+
+    <div class="summary-grid">
+      <div class="summary-stat">
+        <div class="val">$9,500</div>
+        <div class="lbl">One-time build fee</div>
+      </div>
+      <div class="summary-stat">
+        <div class="val">$750/mo</div>
+        <div class="lbl">Support &amp; hosting retainer</div>
+      </div>
+      <div class="summary-stat">
+        <div class="val">~2.5 mo</div>
+        <div class="lbl">Payback period</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       KEY PEOPLE
+  ══════════════════════════════════════════ -->
+  <div class="card">
+    <h2>Key People</h2>
+    <div class="people">
+      <div class="person">
+        <div class="name">Jimmy Walsh</div>
+        <div class="role">RSG — Founder / CEO</div>
+        <div class="note">Decisions, brand voice, escalation rules, budget sign-off</div>
+      </div>
+      <div class="person">
+        <div class="name">Nick Walsh</div>
+        <div class="role">RSG — Dispatch &amp; Ops</div>
+        <div class="note">Service windows, vendor management, daily workflow owner</div>
+      </div>
+      <div class="person">
+        <div class="name">Bitopan Das</div>
+        <div class="role">RSG — Platform Developer</div>
+        <div class="note">API access, webhooks, portal endpoints — your technical counterpart</div>
+      </div>
+      <div class="person">
+        <div class="name">Jam Anderson</div>
+        <div class="role">Jam AI — Account Lead</div>
+        <div class="note">Client relationship, proposal owner</div>
+      </div>
+      <div class="person">
+        <div class="name">Kevin Farrugia</div>
+        <div class="role">Jam AI — Technical Lead</div>
+        <div class="note">Builder. Everything in this doc is yours to gather.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       WHAT WE'RE BUILDING — 3 MODULE OVERVIEW
+  ══════════════════════════════════════════ -->
+  <div class="card">
+    <h2>Phase 1 — The Three Modules</h2>
+    <p class="muted" style="margin-bottom:14px;">Each module is an independent automation. They share Emma as the AI persona and the RSG admin portal as the data source.</p>
+    <div class="modules-row">
+      <div class="module-card mod-01">
+        <div class="mod-num">MODULE 01</div>
+        <div class="mod-name">Emma Warm Handoff</div>
+        <div class="mod-what">When a new order is placed, Emma texts the homeowner automatically — confirms details, collects missing info (make/model, images, gate codes), marks job confirmed. Replaces ~700 manual CS calls/month.</div>
+      </div>
+      <div class="module-card mod-02">
+        <div class="mod-num">MODULE 02</div>
+        <div class="mod-name">After-Hours AI Phone</div>
+        <div class="mod-what">Emma answers the RSG phone after hours (8 PM – 7 AM). Recognizes caller ID, pulls the active job, answers common questions, collects missing info. Nick gets a text if escalation needed.</div>
+      </div>
+      <div class="module-card mod-05">
+        <div class="mod-num">MODULE 05</div>
+        <div class="mod-name">Service Window Collection</div>
+        <div class="mod-what">Every morning Emma texts all vendors with upcoming jobs — "Select your window for [job] on [date]." Vendor replies with a time. Window auto-populates into the system. Eliminates Nick's daily call routine.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       HOW THE PIECES FIT TOGETHER
+  ══════════════════════════════════════════ -->
+  <div class="card">
+    <h2>How the Pieces Fit Together</h2>
+    <p class="muted" style="margin-bottom:16px;">All three modules read from and write back to RSG's admin portal via Bitopan's API. Emma is the outbound channel (SMS/phone). RSG's portal stays the source of truth.</p>
+
+    <h3 style="margin-bottom:10px;">Module 01 — Warm Handoff Flow</h3>
+    <div class="flow">
+      <div class="flow-step system">New order placed<br/><span style="font-size:10px;color:#888">Client portal</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step system">Webhook fires<br/><span style="font-size:10px;color:#888">Bitopan API</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step emma">Emma texts<br/>homeowner</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step emma">Collects<br/>missing info</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step system">Updates job<br/>→ "Confirmed"</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step human">Nick sees it<br/>in dispatch</div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <h3 style="margin-bottom:10px;">Module 02 — After-Hours Phone Flow</h3>
+      <div class="flow">
+        <div class="flow-step human">Caller dials<br/>RSG number</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step emma">Emma answers<br/>(8PM–7AM)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step system">Looks up<br/>caller ID → job</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step emma">Answers / collects<br/>missing info</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step system">Logs to job<br/>in portal</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step human" style="border-color:#fca5a5;color:#dc2626;">Escalates to Nick<br/>if needed</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <h3 style="margin-bottom:10px;">Module 05 — Service Window Flow</h3>
+      <div class="flow">
+        <div class="flow-step emma">Emma morning<br/>blast (e.g. 7 AM)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step human">Vendor replies<br/>with window</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step system">Window written<br/>back to job</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step emma">Emma notifies<br/>homeowner</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step human" style="border-color:#fca5a5;color:#dc2626;">If no reply:<br/>Emma re-nudges</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       WALK AWAY TABLE
+  ══════════════════════════════════════════ -->
+  <div class="card card-accent">
+    <h2>What You Must Walk Away With Today</h2>
+    <p class="muted" style="margin-bottom:14px;">These are blockers. The build cannot start without them.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>What</th>
+          <th>From</th>
+          <th>Priority</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Admin portal login</strong></td>
+          <td>Bitopan</td>
+          <td><span class="badge badge-red">Blocker</span></td>
+          <td>URL + credentials with read/write access</td>
+        </tr>
+        <tr>
+          <td><strong>API key (read + write)</strong></td>
+          <td>Bitopan</td>
+          <td><span class="badge badge-red">Blocker</span></td>
+          <td>Key + API docs or Postman collection</td>
+        </tr>
+        <tr>
+          <td><strong>Webhook for new orders</strong></td>
+          <td>Bitopan</td>
+          <td><span class="badge badge-red">Blocker</span></td>
+          <td>Fires when order status changes to "placed". If not built yet, confirm Bitopan will build it</td>
+        </tr>
+        <tr>
+          <td><strong>Homeowner phone always present?</strong></td>
+          <td>Bitopan</td>
+          <td><span class="badge badge-red">Blocker</span></td>
+          <td>If optional, Emma can't text. Need to understand when it's missing</td>
+        </tr>
+        <tr>
+          <td><strong>Vendor mobile phone on profile?</strong></td>
+          <td>Bitopan</td>
+          <td><span class="badge badge-red">Blocker</span></td>
+          <td>Module 05 requires SMS to vendors — needs mobile numbers</td>
+        </tr>
+        <tr>
+          <td><strong>TCPA opt-in confirmation</strong></td>
+          <td>Jimmy</td>
+          <td><span class="badge badge-red">Blocker</span></td>
+          <td>Homeowners must have opted in to receive automated texts when placing an order</td>
+        </tr>
+        <tr>
+          <td><strong>Approved Emma intro message</strong></td>
+          <td>Jimmy</td>
+          <td><span class="badge badge-amber">High</span></td>
+          <td>Get Jimmy to approve the exact opening SMS. Is Emma identified as AI?</td>
+        </tr>
+        <tr>
+          <td><strong>Per-service info checklist</strong></td>
+          <td>Jimmy / Bitopan</td>
+          <td><span class="badge badge-amber">High</span></td>
+          <td>What does Emma ask per service type (piano, TV, appliances, fitness, pool table, chandelier)?</td>
+        </tr>
+        <tr>
+          <td><strong>Service window options</strong></td>
+          <td>Nick</td>
+          <td><span class="badge badge-amber">High</span></td>
+          <td>Standard slots, e.g. 8–11 AM / 11–2 PM / 2–5 PM</td>
+        </tr>
+        <tr>
+          <td><strong>After-hours escalation preference</strong></td>
+          <td>Nick</td>
+          <td><span class="badge badge-amber">High</span></td>
+          <td>Text? Voicemail? Email? Which number?</td>
+        </tr>
+        <tr>
+          <td><strong>Twilio account or go-ahead to create</strong></td>
+          <td>Jimmy</td>
+          <td><span class="badge badge-amber">High</span></td>
+          <td>SMS + phone infrastructure. Do they have one or do we set it up?</td>
+        </tr>
+        <tr>
+          <td><strong>Staging environment</strong></td>
+          <td>Bitopan</td>
+          <td><span class="badge badge-blue">Nice to have</span></td>
+          <td>Lets us test without touching live jobs</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION A: SYSTEM ACCESS
+  ══════════════════════════════════════════ -->
+  <div class="card card-blue">
+    <div class="section-header">
+      <div class="section-num">A</div>
+      <h2 style="margin:0">System Access — Bitopan</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Technical questions for Bitopan. Get as many answered live as possible — the rest via Slack/email after.</p>
+
+    <h3>API Endpoints to Confirm</h3>
+    <table>
+      <thead>
+        <tr><th>Endpoint</th><th>Used For</th><th>Module</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>GET /jobs?status=new</code></td>
+          <td>Poll for new unconfirmed orders (fallback if no webhook)</td>
+          <td><span class="badge badge-green">01</span></td>
+        </tr>
+        <tr>
+          <td><code>GET /jobs/{id}</code></td>
+          <td>Full job detail — homeowner name, phone, service types, info fields</td>
+          <td><span class="badge badge-green">01</span> <span class="badge badge-blue">02</span></td>
+        </tr>
+        <tr>
+          <td><code>PATCH /jobs/{id}</code></td>
+          <td>Update status to "confirmed", write collected info back</td>
+          <td><span class="badge badge-green">01</span></td>
+        </tr>
+        <tr>
+          <td><code>GET /vendors</code></td>
+          <td>List vendors with territory, contact, phone</td>
+          <td><span class="badge badge-amber">05</span></td>
+        </tr>
+        <tr>
+          <td><code>GET /jobs?date_range=next_3_days</code></td>
+          <td>Jobs needing service windows for morning blast</td>
+          <td><span class="badge badge-amber">05</span></td>
+        </tr>
+        <tr>
+          <td><code>PATCH /jobs/{id}/service-window</code></td>
+          <td>Write confirmed window back into the job</td>
+          <td><span class="badge badge-amber">05</span></td>
+        </tr>
+        <tr>
+          <td>Webhook: <code>order.placed</code></td>
+          <td>Trigger Emma warm handoff the instant an order is placed</td>
+          <td><span class="badge badge-green">01</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="qa-list mt16">
+      <h3 style="margin-bottom:12px;">Questions for Bitopan</h3>
+      <div class="qa-item">
+        <div class="qa-q">Is there a webhook system, or will we need to poll?</div>
+        <div class="qa-why">Webhooks = Emma reacts instantly to new orders. Polling = we hit the API every minute. Either works but webhook is cleaner.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Is homeowner phone number a required field on every order?</div>
+        <div class="qa-why">If it's optional, we need a fallback — Emma can't text without a number. Need to know the % of orders where it's missing.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Do vendor profiles include a mobile phone number?</div>
+        <div class="qa-why">Module 05 sends morning SMS to vendors. If email only, we need to discuss adding SMS numbers to profiles.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Is there a structured "info checklist" per job, or is it free-form notes?</div>
+        <div class="qa-why">Emma needs to know field-by-field what's missing. If it's already structured in the portal, we read it directly. If not, we build the logic ourselves.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Can we write inbound SMS replies back to a job record?</div>
+        <div class="qa-why">When a homeowner replies to Emma's text, that data needs to land on the job. If the portal supports it, great. If not, we store it on our side and sync.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Is there a staging/sandbox environment for testing?</div>
+        <div class="qa-why">We need to run tests without touching live customer data. If there's no sandbox, can Bitopan create a test account?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION B: MODULE 01
+  ══════════════════════════════════════════ -->
+  <div class="card card-green">
+    <div class="section-header">
+      <div class="section-num">B</div>
+      <h2 style="margin:0">Module 01 — Emma Warm Handoff</h2>
+    </div>
+
+    <div class="warning">
+      TCPA alert — before Emma texts any homeowner, RSG must confirm those homeowners opted in to receive automated texts when placing their order. Confirm with Jimmy before launch.
+    </div>
+
+    <h3 style="margin-top:16px;">Per-Service Info Checklist — Confirm Each</h3>
+    <p class="muted" style="margin-bottom:10px;">Emma needs to know what to ask per service type. Confirm or correct this list with Jimmy/Bitopan:</p>
+    <table>
+      <thead>
+        <tr><th>Service Type</th><th>Info Emma Needs to Collect</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Piano</strong></td>
+          <td>Make, model, approximate weight, dimensions, current floor, destination floor, staircase present?, photos requested</td>
+        </tr>
+        <tr>
+          <td><strong>Pool Table</strong></td>
+          <td>Size (7/8/9 ft), slate count, current room, destination address confirmed, disassembly needed?</td>
+        </tr>
+        <tr>
+          <td><strong>Appliances</strong></td>
+          <td>Make + model of each unit, gas or electric (dryer), water line present (washer/fridge), disconnect only or reconnect too</td>
+        </tr>
+        <tr>
+          <td><strong>Fitness Equipment</strong></td>
+          <td>Type of equipment, brand/model, dimensions if known, reassembly at destination needed</td>
+        </tr>
+        <tr>
+          <td><strong>TV / AV</strong></td>
+          <td>TV size, mount type (drywall/brick/stud), destination wall type, same mount or new mount</td>
+        </tr>
+        <tr>
+          <td><strong>Chandelier / Light Fixture</strong></td>
+          <td>Ceiling height, weight approx, reinstall at destination, electrician needed or RSG handles</td>
+        </tr>
+        <tr>
+          <td><strong>Crating / Artwork</strong></td>
+          <td>Dimensions, approximate value, fragility level, ISPM wood required (international move)?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="qa-list mt16">
+      <h3 style="margin-bottom:12px;">Questions for Jimmy / Nick</h3>
+      <div class="qa-item">
+        <div class="qa-q">Is there a standard script CS currently uses for warm handoff calls?</div>
+        <div class="qa-why">We can use this as the basis for Emma's SMS templates. Much faster than writing from scratch.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">After Emma collects all required info, does someone review before the job flips to "confirmed" — or should it auto-confirm?</div>
+        <div class="qa-why">Auto-confirm is faster. Manual review is safer. Need to decide this before building the logic.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">How many reminders should Emma send if a homeowner doesn't respond, and how far apart?</div>
+        <div class="qa-why">e.g. T+24hrs, T+48hrs, then escalate to human CS. Need exact cadence from Jimmy.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Is there anything Emma should never say or commit to without a human? (dates, pricing, exceptions)</div>
+        <div class="qa-why">Guardrails need to be hard-coded. Emma should hand off gracefully rather than guess on sensitive topics.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Should Emma identify herself as AI, or just as "Emma from Relo Solutions Group"?</div>
+        <div class="qa-why">FCC/TCPA regulations are evolving around AI disclosure. Jimmy should make this call with awareness of the rules.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px 16px;">
+      <h3 style="color:#15803d; margin-bottom:8px;">Lock In Today: Emma's Intro SMS</h3>
+      <p style="font-size:13px; color:#166534;">Get Jimmy to approve exact wording on the call. Draft to discuss:</p>
+      <p style="font-size:13px; color:#111; margin-top:8px; background:#fff; border-radius:6px; padding:10px 14px; border:1px solid #d1fae5; font-style:italic;">
+        "Hi [First Name], this is Emma from Relo Solutions Group. We're working with [Moving Company] on your upcoming move and will be handling [service type]. I just need a few quick details to get everything set up — can you help me with [first question]?"
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION C: MODULE 02
+  ══════════════════════════════════════════ -->
+  <div class="card card-blue">
+    <div class="section-header">
+      <div class="section-num">C</div>
+      <h2 style="margin:0">Module 02 — After-Hours AI Phone</h2>
+    </div>
+
+    <h3 style="margin-bottom:10px;">Most Common After-Hours Call Types — Confirm with Nick</h3>
+    <p class="muted" style="margin-bottom:10px;">Emma needs scripted responses for each. Expand or correct this list on the call:</p>
+    <table>
+      <thead>
+        <tr><th>Caller Type</th><th>Typical Ask</th><th>Emma Can Handle?</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Homeowner (known caller ID)</td>
+          <td>"What time is the crew coming?"</td>
+          <td><span class="badge badge-green">Yes — reads window from job</span></td>
+        </tr>
+        <tr>
+          <td>Homeowner (known caller ID)</td>
+          <td>"Can I confirm my appointment?"</td>
+          <td><span class="badge badge-green">Yes — confirms job details</span></td>
+        </tr>
+        <tr>
+          <td>Homeowner (known caller ID)</td>
+          <td>Needs to reschedule</td>
+          <td><span class="badge badge-amber">Collect info, escalate to Nick</span></td>
+        </tr>
+        <tr>
+          <td>Vendor (known number)</td>
+          <td>"Customer not calling me back, is job still on?"</td>
+          <td><span class="badge badge-green">Yes — checks job status</span></td>
+        </tr>
+        <tr>
+          <td>Unknown caller</td>
+          <td>Anything</td>
+          <td><span class="badge badge-amber">Collect name + reason, escalate</span></td>
+        </tr>
+        <tr>
+          <td>Anyone — urgent</td>
+          <td>Job is tomorrow, problem just arose</td>
+          <td><span class="badge badge-red">Escalate to Nick immediately</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="qa-list mt16">
+      <h3 style="margin-bottom:12px;">Questions for Nick / Jimmy</h3>
+      <div class="qa-item">
+        <div class="qa-q">What's the current RSG after-hours number? Do we keep it or set up a new line?</div>
+        <div class="qa-why">If we keep the same number, calls route to Emma. If new, RSG needs to update their voicemail/forwarding.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">When Emma can't resolve something, how should she reach Nick — text, call, or email?</div>
+        <div class="qa-why">Need to hard-code the escalation channel. Most likely a text to Nick's mobile with the job ID and caller summary.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Are there certain call types where Emma should never try to handle it and immediately say "I'll have someone call you first thing tomorrow"?</div>
+        <div class="qa-why">e.g. Complaints, legal threats, anything involving safety. Better to define the hard no-go list upfront.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Voice preference for Emma — any reference, tone, accent?</div>
+        <div class="qa-why">Twilio and ElevenLabs offer many voice options. Jimmy/Jam should pick one they're happy with before launch.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION D: MODULE 05
+  ══════════════════════════════════════════ -->
+  <div class="card card-amber">
+    <div class="section-header">
+      <div class="section-num">D</div>
+      <h2 style="margin:0">Module 05 — Service Window Collection</h2>
+    </div>
+
+    <h3 style="margin-bottom:10px;">What Nick Does Today (to be replaced)</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#d97706;"></div>
+        <div class="tl-label" style="color:#d97706;">Every morning</div>
+        <div class="tl-text">Nick manually calls each vendor with a job coming up — "What time can you be there?"</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#d97706;"></div>
+        <div class="tl-label" style="color:#d97706;">Vendor responds</div>
+        <div class="tl-text">Nick gets a window (e.g. "8–11am"), manually enters it into the portal</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#d97706;"></div>
+        <div class="tl-label" style="color:#d97706;">Nick notifies homeowner</div>
+        <div class="tl-text">Nick (or CS) contacts the homeowner separately with the confirmed window</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#16a34a;"></div>
+        <div class="tl-label" style="color:#16a34a;">After Emma: all of this is automated</div>
+        <div class="tl-text">Emma blasts vendors, collects reply, writes window to portal, texts homeowner — zero Nick involvement for routine jobs</div>
+      </div>
+    </div>
+
+    <div class="qa-list mt16">
+      <h3 style="margin-bottom:12px;">Questions for Nick</h3>
+      <div class="qa-item">
+        <div class="qa-q">What time do you want Emma to send the morning blast?</div>
+        <div class="qa-why">Vendors are tradespeople — too early is annoying, too late leaves no time to sort problems. 7–8 AM likely sweet spot.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">What are the standard window options you offer? (e.g. 8–11 / 11–2 / 2–5)</div>
+        <div class="qa-why">We need to know whether Emma should present fixed options ("Reply 1, 2, or 3") or accept free-text. Fixed options are far more reliable for parsing.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">How far out should jobs be included in the blast? Next day only, or next 3 days?</div>
+        <div class="qa-why">If a job is a week out, do vendors need a window set now? Or is that too early? Nick knows the right threshold.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">If a vendor doesn't reply to Emma's blast, how long before re-nudge? And before escalation to Nick?</div>
+        <div class="qa-why">e.g. 2 hours → second text. 4 hours → Nick gets alerted. Needs to be defined.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Once a window is confirmed, who gets notified — homeowner only, or also the moving company client (e.g. Jade at Syracuse)?</div>
+        <div class="qa-why">From the discovery call Jimmy mentioned wanting the notification to go to the homeowner automatically. But the moving company (Jade) was also mentioned as wanting visibility. Confirm scope for Phase 1.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; padding:14px 16px;">
+      <h3 style="color:#92400e; margin-bottom:8px;">Lock In Today: Draft Vendor SMS</h3>
+      <p style="font-size:13px; color:#78350f;">Get Nick to approve exact wording on the call. Draft to discuss:</p>
+      <p style="font-size:13px; color:#111; margin-top:8px; background:#fff; border-radius:6px; padding:10px 14px; border:1px solid #fde68a; font-style:italic;">
+        "Hi [Vendor Name] — Emma from Relo Solutions. You have a job on [Date] for [Homeowner] in [City]. Please reply with your service window: reply 1 for 8–11 AM, 2 for 11–2 PM, or 3 for 2–5 PM."
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION E: INFRASTRUCTURE
+  ══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="section-header">
+      <div class="section-num">E</div>
+      <h2 style="margin:0">Infrastructure &amp; Compliance</h2>
+    </div>
+
+    <h3 style="margin-bottom:10px;">Tech Stack Decisions to Make</h3>
+    <table>
+      <thead>
+        <tr><th>Decision</th><th>Options</th><th>Recommendation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>SMS platform</strong></td>
+          <td>Twilio, Vonage, existing RSG tool</td>
+          <td>Twilio — industry standard, easy setup</td>
+        </tr>
+        <tr>
+          <td><strong>AI Phone (Module 02)</strong></td>
+          <td>Twilio Voice + LLM, Vapi, Bland AI</td>
+          <td>Twilio Voice + GPT-4o for flexibility</td>
+        </tr>
+        <tr>
+          <td><strong>AI provider</strong></td>
+          <td>OpenAI, Anthropic, Gemini</td>
+          <td>GPT-4o for structured extraction; confirm no RSG data policy blockers</td>
+        </tr>
+        <tr>
+          <td><strong>Hosting</strong></td>
+          <td>Railway, Render, Fly.io, AWS</td>
+          <td>Railway or Render — simple, covered by $750/mo retainer</td>
+        </tr>
+        <tr>
+          <td><strong>Emma's phone number</strong></td>
+          <td>New Twilio number vs forward existing RSG number</td>
+          <td>Ask Jimmy — same number is cleaner for customers, new number is simpler to set up</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning" style="margin-top:16px;">
+      TCPA compliance — automated SMS to consumers requires prior express written consent. Confirm with Jimmy that homeowners opt in to automated texts as part of the order placement flow. This is non-negotiable before launch.
+    </div>
+
+    <div class="warning" style="margin-top:8px;">
+      Data privacy — homeowner names, phone numbers, and job details will pass through the AI API (OpenAI or Anthropic). Confirm RSG has no contractual or compliance restriction on this. If they serve government/military moves, there may be data handling requirements.
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <div style="text-align:center; padding:24px 0; color:#bbb; font-size:12px;">
+    RSG × Jam AI · Phase 1 Onboarding Reference · Prepared by Kevin Farrugia · kevinfar@gmail.com
+  </div>
+
+</div>
+</body>
+</html>
